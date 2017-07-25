@@ -17,10 +17,16 @@ body{
   display: inline-block;
   overflow: auto;
   margin: 0 5px;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
 }
 
 #game-container{
   .row{
     min-width: 900px;
   }
+}
+
+.normal-background{
+  background: #eee;
 }
