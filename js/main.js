@@ -1,10 +1,8 @@
-
-
-const Peach = function(){
+const Peach = function() {
   this.health = 1;
   this.friendly = true;
 }
-const Koopa = function(){
+const Koopa = function() {
   this.health = 1;
   this.friendly = false;
   this.colors = ["red", "green"];
@@ -13,7 +11,7 @@ const Koopa = function(){
   this.sound = "sounds/koopa.wav";
 }
 
-const Bowser = function(){
+const Bowser = function() {
   this.health = 5;
   this.friendly = false;
   this.imageSrc = "images/bowser.png";
@@ -30,6 +28,10 @@ const Bowser = function(){
 
 
 //Powerup constructor
+//mushroom
+//flower
+//yoshi
+//star
 
 //array of constructor objects
 
@@ -42,13 +44,14 @@ const unitCollection = [koopa, koopa2, koopa3, bowser];
 
 //math random select item from array
 
+let gridSize = 8;
+let flipSpeed = 1000;
 
 
 $(document).ready(function() {
 
 
   //grab dom elements
-  let gridSize = 5;
   const gameContainer = $("#game-container");
   const tileInsert = "<div class='tile'></div>";
   const rowInsert = "<div class='row game-row'></div>"
@@ -64,7 +67,7 @@ $(document).ready(function() {
 
   addRows();
 
-  const gameRow = $(".game-row")
+  let gameRow = $(".game-row")
 
   //populate tiles
   function addColumns() {
@@ -74,7 +77,7 @@ $(document).ready(function() {
       }
     })
   };
-  const tiles = $(".tile");
+  let tiles = $(".tile");
 
   addColumns();
 
@@ -94,30 +97,47 @@ $(document).ready(function() {
   assignClasses();
 
 
-
-  $(".tile").on("click", function(e) {
-    const selectedUnit = _.sample(unitCollection);
-    console.log(selectedUnit.imageSrc);
-    $(this).css("background", `url(${selectedUnit.imageSrc})`);
-    // $(this).css("background-size", "contain");
-  });
-
-
-
   //grow gridSize
-  function growGridSize(increase){
+  function growGridSize(increase) {
     $("#game-container").empty();
     gridSize += increase;
     addRows();
+    gameRow = $(".game-row")
     addColumns();
+    tiles = $(".tile");
     assignClasses();
   };
 
-  setTimeout(function(){
-    growGridSize(2);},5000);
+
+  //counter
 
 
-//counter
+
+
+  //start game logic
+  $("#start-button").on("click", function() {
+
+    // setInterval(function() {
+      //flip tile
+      let rowRandom = _.random(1, gridSize);
+      let colRandom = _.random(1, gridSize);
+      let tileRandom = ".r" + rowRandom + " .c" + colRandom;
+      let chosenTile = $(tileRandom);
+      chosenTile.addClass("flipped");
+      let chosenUnit = _.sample(unitCollection);
+      let chosenImg = "url('" + chosenUnit.imageSrc + "')";
+      console.log(chosenTile, chosenImg);
+      chosenTile.css("background", chosenImg);
+    // }, flipSpeed);
+
+
+    $(".flipped").on("click", function() {
+      $(this).removeClass("flipped");
+      $(this).css("background", "black");
+
+    });
+
+  });
 
 
 });
