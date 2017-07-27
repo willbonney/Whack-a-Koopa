@@ -11,6 +11,13 @@ const Koopa = function() {
   this.sound = "sounds/koopa.wav";
 }
 
+const Goomba = function() {
+  this.health = 1;
+  this.friendly = false;
+  this.imageSrc = "images/goomba.png";
+  this.sound = "sounds/goomba.wav";;
+}
+
 const Bowser = function() {
   this.health = 5;
   this.friendly = false;
@@ -28,6 +35,13 @@ const Bowser = function() {
 
 
 //Powerup constructor
+
+const Mushroom = function(){
+  this.health = 1;
+  this.friendly = true;
+  this.imageSrc = "images/mushroom.png";
+  this.sound = "sounds/sound.wav";
+}
 //mushroom
 //flower
 //yoshi
@@ -42,10 +56,9 @@ bowser = new Bowser();
 
 const unitCollection = [koopa, koopa2, koopa3, bowser];
 
-//math random select item from array
 
 let gridSize = 8;
-let flipSpeed = 1000;
+let flipSpeed = 500;
 
 
 $(document).ready(function() {
@@ -116,28 +129,67 @@ $(document).ready(function() {
 
   //start game logic
   $("#start-button").on("click", function() {
+    let points = 0;
 
-    // setInterval(function() {
+    setInterval(function() {
       //flip tile
       let rowRandom = _.random(1, gridSize);
       let colRandom = _.random(1, gridSize);
       let tileRandom = ".r" + rowRandom + " .c" + colRandom;
       let chosenTile = $(tileRandom);
-      chosenTile.addClass("flipped");
-      let chosenUnit = _.sample(unitCollection);
-      let chosenImg = "url('" + chosenUnit.imageSrc + "')";
-      console.log(chosenTile, chosenImg);
-      chosenTile.css("background", chosenImg);
-    // }, flipSpeed);
+      if (chosenTile.hasClass("flipped")) {
+        //getting slow at end
+        //do nothing
+      } else {
+        chosenTile.addClass("flipped");
+        let chosenUnit = _.sample(unitCollection);
+        let friendly = chosenUnit.friendly;
+        let chosenImg = "url('" + chosenUnit.imageSrc + "')";
+        chosenTile.css("background", chosenImg);
+      };
 
 
-    $(".flipped").on("click", function() {
-      $(this).removeClass("flipped");
-      $(this).css("background", "black");
 
-    });
+      const flippedTiles = $(".flipped");
+
+      //getting chaotic
+      flippedTiles.on("click", function() {
+        if (false) { //friendly?
+          //lose game
+          // else if poweruop, execute modifier
+
+        } else { //clicked on enemy
+          //define this outside???
+          //get target's health
+          //if target's health===0
+          $(this).removeClass("flipped");
+          $(this).css("background", "black");
+          console.log(this, "enemy");
+          points++;
+          console.log(points);
+          //else target's health--
+        };
+      });
+
+      //update score
+      $("#points").text(points);
+      //yoshi setInterval not working
+      $("#yoshi-button").on("click", function() {
+        let yoshi = true;
+        while (yoshi) {
+          for (let i = 0; i < 3; i++) {
+            setInterval(function() {
+              let yoshiFlip = _.sample(flippedTiles)
+              $(yoshiFlip).removeClass("flipped");
+              $(yoshiFlip).css("background", "green");
+            }, 1000);
+          };
+          yoshi = false;
+        }
+      });
+
+    }, flipSpeed); //setInterval end
 
   });
-
 
 });
