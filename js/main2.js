@@ -38,7 +38,7 @@ const Bowser = function() {
 
 //Powerup constructor
 
-const Mushroom = function() {
+const Mushroom = function(){
   this.health = 1;
   this.friendly = true;
   this.imageSrc = "images/mushroom.png";
@@ -61,7 +61,6 @@ const unitCollection = [koopa, koopa2, koopa3, bowser];
 
 let gridSize = 8;
 let flipSpeed = 500;
-let tileImgSrc = "images/mushroom.png";
 
 
 $(document).ready(function() {
@@ -133,85 +132,66 @@ $(document).ready(function() {
   //start game logic
   $("#start-button").on("click", function() {
     let points = 0;
-    let flippedTiles;
-    let tileCountdownArray = [];
 
     setInterval(function() {
       //flip tile
-      const rowRandom = _.random(1, gridSize);
-      const colRandom = _.random(1, gridSize);
-      const tileRandom = ".r" + rowRandom + " .c" + colRandom;
-      const chosenTile = $(tileRandom);
-      tileCountdownArray.push(chosenTile);
+      let rowRandom = _.random(1, gridSize);
+      let colRandom = _.random(1, gridSize);
+      let tileRandom = ".r" + rowRandom + " .c" + colRandom;
+      let chosenTile = $(tileRandom);
       if (chosenTile.hasClass("flipped")) {
         //getting slow at end
-        // return;
+        return;
         //do nothing
-
       } else {
         chosenTile.addClass("flipped");
-        const chosenUnit = _.sample(unitCollection);
-        const friendly = chosenUnit.friendly;
-        const chosenImg = "url('" + chosenUnit.imageSrc + "')";
+        let chosenUnit = _.sample(unitCollection);
+        let friendly = chosenUnit.friendly;
+        let chosenImg = "url('" + chosenUnit.imageSrc + "')";
         chosenTile.css("background", chosenImg);
-
-        flippedTiles = $(".flipped");
-
-        //update score
-        $("#points").text(points);
       };
 
-    }, flipSpeed); //setInterval end
-
-    setInterval(function() {
-      console.log(tileCountdownArray.length);
-      if (tileCountdownArray.length > 3) {
-        const oldestTile = _.head(tileCountdownArray);
-        oldestTile.removeClass("flipped");
-        oldestTile.css("background", "black");
-        _.remove(tileCountdownArray, oldestTile);
-        points--;
-      }
-    }, flipSpeed);
 
 
-    //getting chaotic
-    $(".tile").on("click", function() {
-      console.log("flipped clicked");
-      if (false) { //friendly?
-        //lose game
-        // else if powerup, execute modifier
+      const flippedTiles = $(".flipped");
 
-      } else { //clicked on enemy
-        //define this outside???
-        //get target's health
-        //if target's health===0
-        if ($(this).hasClass("flipped")) {
+      //getting chaotic
+      flippedTiles.on("click", function() {
+        if (false) { //friendly?
+          //lose game
+          // else if powerup, execute modifier
+
+        } else { //clicked on enemy
+          //define this outside???
+          //get target's health
+          //if target's health===0
           $(this).removeClass("flipped");
           $(this).css("background", "black");
           console.log(this, "enemy");
           points++;
-          _.remove(tileCountdownArray, $(this));
-        }
-        //else target's health--
-      };
-    });
-
-    //yoshi setInterval not working
-    $("#yoshi-button").on("click", function() {
-      let yoshi = true;
-      while (yoshi) {
-        for (let i = 0; i < 3; i++) {
-          setInterval(function() {
-            let yoshiFlip = _.sample(flippedTiles)
-            $(yoshiFlip).removeClass("flipped");
-            $(yoshiFlip).css("background", "green");
-          }, 1000);
+          console.log(points);
+          //else target's health--
         };
-        yoshi = false;
-      }
-    });
+      });
 
+      //update score
+      $("#points").text(points);
+      //yoshi setInterval not working
+      $("#yoshi-button").on("click", function() {
+        let yoshi = true;
+        while (yoshi) {
+          for (let i = 0; i < 3; i++) {
+            setInterval(function() {
+              let yoshiFlip = _.sample(flippedTiles)
+              $(yoshiFlip).removeClass("flipped");
+              $(yoshiFlip).css("background", "green");
+            }, 1000);
+          };
+          yoshi = false;
+        }
+      });
+
+    }, flipSpeed); //setInterval end
 
   });
 
