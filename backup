@@ -1,0 +1,27 @@
+$(".tile").on("click", function() {
+  let unitHealth = $(this).data("unit").health;
+  const unitPoints = $(this).data("unit").points;
+  const unitFriendly = $(this).data("unit").friendly;
+  const unitClick = $(this).data("unit").click;
+  console.log("flipped clicked", unitHealth);
+
+  if (false) { //friendly?
+    //lose game
+    // else if powerup, execute modifier
+
+  } else { //clicked on enemy
+    //define this outside???
+    //get target's health
+    //if target's health===0
+    unitHealth -= 1;
+    console.log("inside click", unitHealth);
+    if ($(this).hasClass("flipped") && unitHealth == 0) {
+      $(this).removeClass("flipped");
+      $(this).css("background", "black");
+      console.log(this, "enemy");
+      points += unitPoints;
+      _.remove(tileCountdownArray, $(this));
+    }
+    //else target's health--
+  };
+});
