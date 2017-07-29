@@ -1,13 +1,23 @@
+$.fn.extend({
+  animateCss: function(animationName) {
+    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+    this.addClass('animated ' + animationName).one(animationEnd, function() {
+      $(this).removeClass('animated ' + animationName);
+    });
+    return this;
+  }
+});
+
+
 const Peach = function() {
+  this.name = "peach";
   this.health = 1;
-  this.friendly = true;
   this.points = 1;
   this.imageSrc = "images/peach.jpg";
   this.sound = "sounds/bowser.wav";
 }
 const Koopa = function() {
   this.health = 1;
-  this.friendly = false;
   this.points = 1;
   this.colors = ["red", "green"];
   this.color = _.sample(this.colors);
@@ -17,7 +27,6 @@ const Koopa = function() {
 
 const Goomba = function() {
   this.health = 1;
-  this.friendly = false;
   this.points = 1;
   this.imageSrc = "images/goomba.png";
   this.sound = "sounds/goomba.wav";;
@@ -25,12 +34,25 @@ const Goomba = function() {
 
 const Bowser = function() {
   this.health = 5;
-  this.friendly = false;
   this.points = 5;
   this.imageSrc = "images/bowser.png";
   this.sound = "sounds/bowser.wav";
 }
 
+const Bomb = function() {
+  this.name = "bomb";
+  this.health = 1;
+  this.points = -10;
+  this.imageSrc = "images/bomb.png"
+  this.sound = "sounds/bomb.wav"
+}
+
+Bomb.prototype.gotClicked = function() {
+  $("#game-container").css("opacity", 0.05);
+  setTimeout(function() {
+    $("#game-container").css("opacity", 1)
+  }, 1000);
+};
 
 Bowser.prototype.gotClicked = function() {
   console.log("Bowser clicked");
@@ -42,7 +64,6 @@ Bowser.prototype.gotClicked = function() {
 
 const Mushroom = function() {
   this.health = 1;
-  this.friendly = true;
   this.imageSrc = "images/mushroom.png";
   this.sound = "sounds/sound.wav";
 }
@@ -58,8 +79,9 @@ koopa2 = new Koopa();
 koopa3 = new Koopa();
 bowser = new Bowser();
 peach = new Peach();
+bomb = new Bomb();
 
-const unitCollection = [koopa, koopa2, koopa3, bowser, peach];
+const unitCollection = [koopa, koopa2, koopa3, bowser, peach, bomb];
 
 
 let gridSize = 8;
@@ -69,16 +91,11 @@ let tileImgSrc = "images/mushroom.png";
 
 
 $(document).ready(function() {
-
-
   //grab dom elements
   const gameContainer = $("#game-container");
   const tileInsert = "<div class='tile'></div>";
   const rowInsert = "<div class='row game-row'></div>"
-
-
   //populate game-rows
-
   function addRows() {
     for (let i = 0; i < gridSize; i++) {
       $("#game-container").append(rowInsert);
@@ -162,17 +179,13 @@ $(document).ready(function() {
       } else {
         chosenTile.addClass("flipped");
         const chosenUnit = _.sample(unitCollection);
-        const friendly = chosenUnit.friendly;
-        const health = chosenUnit.health;
-        const points = chosenUnit.points;
-        const clickFunction = chosenUnit.gotClicked;
         const chosenImg = "url('" + chosenUnit.imageSrc + "')";
         chosenTile.css("background", chosenImg);
         $(chosenTile).data("unit", {
-          health: health,
-          friendly: friendly,
-          click: clickFunction,
-          points: points
+          name: chosenUnit.name,
+          health: chosenUnit.health,
+          click: chosenUnit.gotClicked,
+          points: chosenUnit.points
 
         });
 
@@ -191,12 +204,10 @@ $(document).ready(function() {
     $(".tile").on("click", function() {
       if ($(this).hasClass("flipped")) {
         const unitPoints = $(this).data("unit").points;
-        const unitFriendly = $(this).data("unit").friendly;
+        const unitName = $(this).data("unit").name;
         const unitClick = $(this).data("unit").click;
         const clickCol = $(this).attr('class').match(/\bc(\d+)\b/)[1];
-        const clickRow = $(this).parent().attr('class').match(/\br(\d+)\b/)[1];
-        console.log("clicked on", "r" + clickRow, "c" + clickCol);
-        console.log("col", typeof(clickCol), "row", typeof(clickRow));
+        const clickRow = $(this).parent().attr('class').match(/\br(\d+)\b/)[1];;
 
         function clickSuccess(target) {
           points += unitPoints;
@@ -205,7 +216,8 @@ $(document).ready(function() {
           $(target).removeClass("flipped");
           $(target).css("background", "black");
           _.remove(tileCountdownArray, $(target));
-          $(target).removeData();
+          $(target).data("unit").health = 0;
+          return;
         }
 
 
@@ -214,11 +226,14 @@ $(document).ready(function() {
 
         $(this).data("unit").health -= 1;
 
-        if (unitFriendly === true) {
+        if (unitName === "peach") {
           alert("you lose");
           return;
         }
 
+        if($(this).data("unit").name = "bomb"){
+          unitClick();
+        }
 
 
         if (mushroom) {
@@ -231,15 +246,10 @@ $(document).ready(function() {
           const leftOneEl = $(".r" + _.toNumber(clickRow) + " .c" + leftOne);
           const rightOneEl = $(".r" + _.toNumber(clickRow) + " .c" + rightOne);
 
-          upOneEl.addClass("animated bounce");
-          downOneEl.addClass("animated bounce");
-          leftOneEl.addClass("animated bounce");
-          rightOneEl.addClass("animated bounce");
-
-          //
-          console.log("up", upOneEl, upOne);
-          console.log("down", downOneEl, downOne);;
-          // console.log(upOneEl.data().unit.health);
+          upOneEl.animateCss("bounce");
+          downOneEl.animateCss("bounce");
+          leftOneEl.animateCss("bounce");
+          rightOneEl.animateCss("bounce");
 
           upOneEl.data("unit").health -= 1;
           downOneEl.data("unit").health -= 1;
@@ -261,7 +271,7 @@ $(document).ready(function() {
             clickSuccess(rightOneEl);
           }
 
-        }//end mushroom
+        } //end mushroom
 
         if ($(this).data("unit").health === 0) {
           clickSuccess(this);
@@ -295,17 +305,13 @@ $(document).ready(function() {
         // let yoshiFlip = _.sample(flippedTiles);
         console.log("sampled array", yoshiFlip);
         let yoshiPoints = $(yoshiFlip).data().unit.points;
-        $(yoshiFlip).addClass("animated bounce");
-        // $(yoshiFlip).removeClass("animated bounce");
-        $(yoshiFlip).removeClass("flipped");
-        $(yoshiFlip).css("background", "green");
+        $(yoshiFlip).animateCss("shake");
         $(yoshiFlip).removeData();
         points += yoshiPoints;
         updateScore();
       };
       //remove yoshi button
     });
-
 
 
 
