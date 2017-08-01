@@ -13,10 +13,10 @@
 <!--
 todo:
 write in logic instead of button click for powerups/downs
-find unit for speed up and speed down
 animations
 sounds
 bg
+win & loss conditions
  -->
 
 <body>
@@ -57,39 +57,41 @@ bg
 
   </div>
 
-<!-- modal -->
+  <!-- modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h2 class="modal-title" id="myModalLabel">Welcome to Wack-A-Koopa</h2>
-      </div>
-      <div class="modal-body">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h2 class="modal-title" id="myModalLabel">Welcome to Wack-A-Koopa</h2>
+        </div>
+        <div class="modal-body">
 
-      <div><img src="images/koopa-green.png" class="instruction-img">HP:1, awards 1 point</div>
-        <div><img src="images/goomba.png" class="instruction-img">HP: 1, awards 1 point</div>
-        <div>  <img src="images/bomb.png" class="instruction-img">HP: 1, fades screen for x seconds</div>
-        <div><img src="images/piranha.png" class="instruction-img">HP: 1, increases grid size by 2</div>
-        <div><img src="images/bowser.png" class="instruction-img">HP: 5, awards 5 points</div>
-      <div><img src="images/mushroom.png" class="instruction-img">HP: 3, upgrades to AOE clicking</div>
-        <div><img src="images/1up.png" class="instruction-img">HP: 5, decreases grid size by 2</div>
-        <div><img src="images/yoshi.png" class="instruction-img">HP: 1, Yoshi comes to help you out</div>
-        <div><img src="images/peach.png" class="instruction-img">HP: 1, if you hit Peach, Game Over</div>
+          <div><img src="images/koopa-green.png" class="instruction-img">HP:1, awards 1 point</div>
+          <div><img src="images/goomba.png" class="instruction-img">HP: 1, awards 1 point</div>
+          <div> <img src="images/ghost.png" class="instruction-img">HP: 1, fades screen for x seconds</div>
+          <div><img src="images/bowser.png" class="instruction-img">HP: 5, awards 5 points</div>
+          <div><img src="images/mushroom.png" class="instruction-img">HP: 3, upgrades to AOE clicking</div>
+          <div><img src="images/1up.png" class="instruction-img">HP: 5, decreases grid size by 2</div>
+          <div><img src="images/piranha.png" class="instruction-img">HP: 1, increases grid size by 2</div>
+          <div><img src="images/bomb.png" class="instruction-img">HP: 1, increases game speed</div>
+          <div><img src="images/star.png" class="instruction-img">HP: 2, decreases game speed</div>
+          <div><img src="images/yoshi.png" class="instruction-img">HP: 1, Yoshi comes to help you out</div>
+          <div><img src="images/peach.png" class="instruction-img">HP: 1, if you hit Peach, Game Over</div>
 
 
 
 
-      </div>
-      <div class="modal-footer">
+        </div>
+        <div class="modal-footer">
 
-        <button id="easy" type="button" class="btn btn-primary modal-btn">Easy</button>
-        <button id="medium" type="button" class="btn btn-primary modal-btn">Medium</button>
-        <button id="hard" type="button" class="btn btn-primary modal-btn">Hard</button>
+          <button id="easy" type="button" class="btn btn-primary modal-btn">Easy</button>
+          <button id="medium" type="button" class="btn btn-primary modal-btn">Medium</button>
+          <button id="hard" type="button" class="btn btn-primary modal-btn">Hard</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
