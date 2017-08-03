@@ -48,7 +48,7 @@ const Ghost = function() {
 }
 const Oneup = function() {
   this.name = "oneup";
-  this.health = 5;
+  this.health = 10;
   this.points = 10;
   this.imageSrc = "images/oneup.png"
   this.sound = "sounds/oneup.wav"
@@ -83,6 +83,13 @@ const Star = function() {
   this.sound = "sounds/star.wav";
 }
 
+const Yoshi = function() {
+  this.health = 1;
+  this.points = 10;
+  this.imageSrc = "images/yoshi.png";
+  this.sound = "sounds/yoshi.wav";
+}
+
 
 Peach.prototype.gotClicked = function() {
   alert("you lose");
@@ -111,34 +118,44 @@ Mushroom.prototype.gotClicked = function(name, health) {
   if (name === "mushroom" && health === 1) {
     mushroomPower = true;
     console.log("mushroom proto");
-
+    setTimeout(function() {
+      mushroomPower = false;
+    }, 15000);
   };
 
 };
 
 
-Oneup.prototype.gotClicked = function() {
-  growGridSize(2);
+Oneup.prototype.gotClicked = function(name, health) {
+  if (health === 1) {
+    $("#shrink-grid").trigger("click");
+  }
 };
 
-Piranha.prototype.gotClicked = function() {
-  shrinkGridSize(2);
+Piranha.prototype.gotClicked = function(name, health) {
+  if (health === 1) {
+    $("#grow-grid").trigger("click");
+  }
 };
 
-Bowser.prototype.gotClicked = function() {
+Bowser.prototype.gotClicked = function(name, health) {
   console.log("Bowser clicked");
 };
-Bomb.prototype.gotClicked = function() {
-  changeSpeed(300);
+Bomb.prototype.gotClicked = function(name, health) {
+  if (health === 1) {
+    $("#fast-button").trigger("click");
+  }
 };
-Star.prototype.gotClicked = function() {
-  changeSpeed(-300);
+Star.prototype.gotClicked = function(name, health) {
+  if (health === 1) {
+    $("#slow-button").trigger("click");
+  }
 };
 
-//mushroom
-//flower
-//yoshi
-//star
+Yoshi.prototype.gotClicked = function(name, health) {
+  $("#yoshi-button").show();
+
+};
 
 koopa = new Koopa();
 koopa2 = new Koopa();
@@ -147,23 +164,36 @@ bowser = new Bowser();
 peach = new Peach();
 ghost = new Ghost();
 mushroom = new Mushroom();
+yoshi = new Yoshi();
+yoshi2 = new Yoshi();
+bomb = new Bomb();
+oneup = new Oneup();
+piranha = new Piranha();
+star = new Star();
 
-const unitCollection = [koopa, koopa2, koopa3, bowser, peach, ghost, mushroom];
+const unitCollection = [oneup,
+  piranha,
+  star,
+  koopa,
+  koopa2,
+  koopa3,
+  bomb,
+  bowser,
+  peach,
+  ghost,
+  mushroom,
+  yoshi,
+  yoshi2
+];
 
 
 let points = 0;
 let gridSize = 8;
 let flipSpeed = 600;
 let maxFlipped = 10;
-let tileImgSrc = "images/mushroom.png";
 let mushroomPower = false;
 
 $(document).ready(function() {
-
-
-
-
-
 
   //grab dom elements
   const gameContainer = $("#game-container");
@@ -225,38 +255,33 @@ $(document).ready(function() {
 
   //shrink gridSize
   function shrinkGridSize(decrease) {
-    $("#game-container").empty();
-    gridSize -= decrease;
-    console.log("new gridsize", gridSize);
-    addRows(gridSize);
-    gameRow = $(".game-row")
-    addColumns(gridSize);
-    tiles = $(".tile");
-    assignClasses();
-    $("#start-button").trigger("click");
+    if (gridSize <= 6) {
+      console.log("smaller than 6");
+      return;
+    } else {
+      $("#game-container").empty();
+      gridSize -= decrease;
+      console.log("new gridsize", gridSize);
+      addRows(gridSize);
+      gameRow = $(".game-row")
+      addColumns(gridSize);
+      tiles = $(".tile");
+      assignClasses();
+      $("#start-button").trigger("click");
+    }
   };
 
 
   $("#grow-grid").on("click", function() {
     console.log("grow");
-    growGridSize(2);
+    growGridSize(1);
   });
 
 
   $("#shrink-grid").on("click", function() {
-    console.log("grow");
-    shrinkGridSize(2);
+    console.log("shrink");
+    shrinkGridSize(1);
   });
-
-
-  // let mushroom = false;
-  // $("#mushroom-button").on("click", function() {
-  //   mushroom = true;
-  //   console.log("musroom clicked");
-  // })
-  //counter
-
-
 
 
   //start game logic
@@ -305,7 +330,7 @@ $(document).ready(function() {
     let flipInterval = setInterval(flip, flipSpeed);
 
     function changeSpeed(change) {
-      if (flipSpeed + change < 0) {
+      if (flipSpeed + change < 200) {
         return
       } else {
         flipSpeed += change;
@@ -322,103 +347,20 @@ $(document).ready(function() {
     });
 
     $("#slow-button").on("click", function() {
-      changeSpeed(500);
+      changeSpeed(200);
     });
 
 
 
     $(".tile").on("click", function() {
       if ($(this).hasClass("flipped")) {
+        $(this).animateCss("pulse");
         const unitPoints = $(this).data("unit").points;
         const unitName = $(this).data("unit").name;
         const unitHealth = $(this).data("unit").health;
         const unitClick = $(this).data("unit").click;
         const clickCol = $(this).attr('class').match(/\bc(\d+)\b/)[1];
         const clickRow = $(this).parent().attr('class').match(/\br(\d+)\b/)[1];;
-        console.log(mushroomPower);
-
-
-
-
-
-
-        if (mushroomPower === true) {
-          for (var i = 0; i < 3; i++) {
-            console.log("inside mushroom");
-
-            const upOne = _.toNumber(clickRow) - 1;
-            const downOne = _.toNumber(clickRow) + 1;
-            const leftOne = _.toNumber(clickCol) - 1;
-            const rightOne = _.toNumber(clickCol) + 1;
-            const upOneEl = $(".r" + upOne + " .c" + _.toNumber(clickCol));
-            const downOneEl = $(".r" + downOne + " .c" + _.toNumber(clickCol));
-            const leftOneEl = $(".r" + _.toNumber(clickRow) + " .c" + leftOne);
-            const rightOneEl = $(".r" + _.toNumber(clickRow) + " .c" + rightOne);
-
-            upOneEl.animateCss("bounce");
-            downOneEl.animateCss("bounce");
-            leftOneEl.animateCss("bounce");
-            rightOneEl.animateCss("bounce");
-
-            let upOneHealth = upOneEl.data("unit").health;
-            let downOneHealth = downOneEl.data("unit").health;
-            let leftOneHealth = leftOneEl.data("unit").health;
-            let rightOneHealth = rightOneEl.data("unit").health;
-
-
-            if (typeof upOneHealth !== "undefined") {
-              upOneHealth -= 1;
-              if (upOneHealth === 0) {
-                killIt(upOneEl);
-              }
-            };
-            if (typeof downOneHealth !== "undefined") {
-              downOneHealth -= 1
-              if (downOneHealth === 0) {
-                killIt(downOneEl);
-              }
-            };
-            if (typeof rightOneHealth !== "undefined") {
-              rightOneHealth -= 1
-              if (rightOneHealth === 0) {
-                killIt(rightOneEl);
-              }
-            };
-            if (typeof leftOneHealth !== "undefined") {
-              leftOneHealth -= 1
-              if (leftOneHealth === 0) {
-                killIt(leftOneEl);
-              }
-            };
-          }
-
-          mushroomPower = false;
-          console.log("mushroom power false");
-
-
-        } //end mushroom
-
-
-
-
-
-
-
-        unitClick(unitName, unitHealth); //pass things here
-        $(this).animateCss("bounce");
-
-
-        function killIt(target) {
-          points += unitPoints;
-          //update score
-          updateScore();
-          $(target).removeClass("flipped");
-          $(target).css("background", "black");
-          _.remove(tileCountdownArray, $(target));
-          $(target).data("unit").health = 0;
-          $(target).find(".unit-health").remove();
-          return;
-        };
 
         $(this).data("unit").health -= 1;
         $(this).find(".unit-health").html($(this).data("unit").health); //so ugly
@@ -426,57 +368,123 @@ $(document).ready(function() {
         if ($(this).data("unit").health === 0) {
           killIt(this);
         }
+
+        unitClick(unitName, unitHealth); //pass things here
+
+        console.log(mushroomPower);
+
+        if (mushroomPower === true) {
+
+          console.log("inside mushroom");
+          const upOne = _.toNumber(clickRow) - 1;
+          const upOneFixed = upOne < 1 ? gridSize : upOne > gridSize ? 1 : upOne;
+          const downOne = _.toNumber(clickRow) + 1;
+          const downOneFixed = downOne < 1 ? gridSize : downOne > gridSize ? 1 : downOne;
+          const leftOne = _.toNumber(clickCol) - 1;
+          const leftOneFixed = leftOne < 1 ? gridSize : leftOne > gridSize ? 1 : leftOne;
+          const rightOne = _.toNumber(clickCol) + 1;
+          const rightOneFixed = rightOne < 1 ? gridSize : rightOne > gridSize ? 1 : rightOne;
+
+          const upOneEl = $(".r" + upOneFixed + " .c" + _.toNumber(clickCol));
+          const downOneEl = $(".r" + downOneFixed + " .c" + _.toNumber(clickCol));
+          const leftOneEl = $(".r" + _.toNumber(clickRow) + " .c" + leftOneFixed);
+          const rightOneEl = $(".r" + _.toNumber(clickRow) + " .c" + rightOneFixed);
+
+          upOneEl.animateCss("bounce");
+          downOneEl.animateCss("bounce");
+          leftOneEl.animateCss("bounce");
+          rightOneEl.animateCss("bounce");
+
+          let upOneHealth = upOneEl.data("unit").health;
+          let downOneHealth = downOneEl.data("unit").health;
+          let leftOneHealth = leftOneEl.data("unit").health;
+          let rightOneHealth = rightOneEl.data("unit").health;
+
+
+          if (typeof upOneHealth !== "undefined") {
+            upOneHealth -= 1;
+            if (upOneHealth === 0) {
+              killIt(upOneEl);
+            }
+          };
+          if (typeof downOneHealth !== "undefined") {
+            downOneHealth -= 1
+            if (downOneHealth === 0) {
+              killIt(downOneEl);
+            }
+          };
+          if (typeof rightOneHealth !== "undefined") {
+            rightOneHealth -= 1
+            if (rightOneHealth === 0) {
+              killIt(rightOneEl);
+            }
+          };
+          if (typeof leftOneHealth !== "undefined") {
+            leftOneHealth -= 1
+            if (leftOneHealth === 0) {
+              killIt(leftOneEl);
+            }
+          };
+
+
+
+        } //end mushroom
+
+        //need to reset this?
+        function unflip() {
+          if (tileCountdownArray.length > maxFlipped) {
+            const oldestTile = _.head(tileCountdownArray);
+            oldestTile.removeClass("flipped");
+            oldestTile.css("background", "url('images/block.png')");
+            oldestTile.find(".unit-health").remove();
+            _.remove(tileCountdownArray, oldestTile);
+
+            points -= oldestTile.data("unit").health;;
+            updateScore();
+          }
+        }
+
+        let unflipInterval = setInterval(unflip, flipSpeed);
+
+        function killIt(target, givePoints = true) {
+          if(givePoints === true){
+          points += unitPoints;
+        }
+          //update score
+          updateScore();
+          $(target).removeClass("flipped");
+          $(target).css("background", " url('images/block.png')");
+          _.remove(tileCountdownArray, $(target));
+          $(target).data("unit").health = 0;
+          $(target).find(".unit-health").remove();
+          return;
+        };
+
+
       }
 
-    }); //end tile onclick
-
-    //need to reset this?
-    function unflip() {
-      if (tileCountdownArray.length > maxFlipped) {
-        const oldestTile = _.head(tileCountdownArray);
-        oldestTile.removeClass("flipped");
-        oldestTile.css("background", "black");
-        oldestTile.find(".unit-health").remove();
-        _.remove(tileCountdownArray, oldestTile);
-
-        points -= oldestTile.data("unit").health;;
-        updateScore();
-      }
-    }
-
-    let unflipInterval = setInterval(unflip, flipSpeed);
+      //yoshi setInterval not working
+      $("#yoshi-button").on("click", function() {
+        const numberFlipped = $(".flipped").length;
+        for (let i = 0; i < numberFlipped; i++) {
+          let flippedTiles = $(".flipped");
+          let yoshiFlip = flippedTiles[i];
 
 
+          killIt($(yoshiFlip), false);
 
-    //yoshi setInterval not working
-    $("#yoshi-button").on("click", function() {
-      const numberFlipped = $(".flipped").length;
-      for (let i = 0; i < numberFlipped; i++) {
-        let flippedTiles = $(".flipped");
-        console.log("flipped array", flippedTiles);
-        let yoshiFlip = flippedTiles[i];
+          $(yoshiFlip).animateCss("shake");
+          $(yoshiFlip).removeData();
 
-        $(yoshiFlip).removeClass("flipped");
-        $(yoshiFlip).css("background", "black");
-        _.remove(tileCountdownArray, $(yoshiFlip));
-        $(yoshiFlip).data("unit").health = 0;
-        $(yoshiFlip).find(".unit-health").remove();
+          $("#yoshi-button").hide();
+        }; //for loop end
 
-        // let yoshiFlip = _.sample(flippedTiles);
-        console.log("sampled array", yoshiFlip);
-        let yoshiPoints = $(yoshiFlip).data().unit.points;
-        $(yoshiFlip).animateCss("shake");
-        $(yoshiFlip).removeData();
-        points += yoshiPoints;
-        updateScore();
+      });
 
 
-      };
-      //remove yoshi button
-    });
-
-
-
+    }); //tile onclick end
   });
+
+//win loss conditions
 
 });

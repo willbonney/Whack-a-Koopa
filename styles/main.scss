@@ -1,9 +1,9 @@
-$base: #eee;
+$base: #ccc;
 $alt-1: #ddd;
 $alt-2: #fff;
 
 * {
-  box-sizing: content-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -13,9 +13,9 @@ body {
 .tile {
   width: 100px;
   height: 100px;
-  background-color: black;
+  background: url("../images/block.png");
   display: inline-block;
-  overflow: auto;
+  overflow: hidden;
   margin: 0 5px;
   background-size: contain !important;
   background-repeat: no-repeat !important;
@@ -44,4 +44,37 @@ body {
   position: relative;
   bottom: 4px;
   left: 42px;
+}
+
+#yoshi-button,
+#grow-grid,
+#shrink-grid,
+#fast-button,
+#slow-button{
+  display: none;
+};
+
+video.fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  transform: translate(-50%, -50%);
+}
+
+.modal-item{
+  font-size: 1.5em;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.tile:hover{
+  border: 3px solid #fa4408;
+    border-radius: 5px;
+    cursor: crosshair;
 }

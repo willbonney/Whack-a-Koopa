@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="author" content="wba0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   <link rel="stylesheet" href="styles/main.min.css">
@@ -20,7 +21,9 @@ win & loss conditions
  -->
 
 <body>
+
   <div class="container-fluid normal-background">
+    <video class="fullscreen" src="video.webm" poster="" playsinline autoplay muted loop></video>
     <div class="row">
       <h1 class="text-center">Whack a Koopa</h1>
       <button id="start-button">Start</button>
@@ -33,14 +36,13 @@ win & loss conditions
         SCORE: <span id="points"></span>
       </div>
 
-      <div id="game-container" class="text-center col-xs-10">
+      <div id="game-container" class="text-center col-xs-8">
 
       </div>
 
       <div id="right-panel" class="col-xs-2 pull-right">
         POWERUP
         <button id="yoshi-button">YOSHI</button>
-        <button id="mushroom-button">MUSHROOM</button>
         <button id="grow-grid">GROW</button>
         <button id="shrink-grid">SHRINK</button>
         <button id="fast-button">FAST</button>
@@ -66,19 +68,25 @@ win & loss conditions
           <h2 class="modal-title" id="myModalLabel">Welcome to Wack-A-Koopa</h2>
         </div>
         <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="modal-item"><img src="images/koopa-green.png" class="center instruction-img"><div>HP:1, awards 1 point</div></div>
+              <div class="modal-item"><img src="images/goomba.png" class="center instruction-img"><div>HP: 1, awards 1 point</div></div>
+              <div class="modal-item"> <img src="images/ghost.png" class="center instruction-img"><div>HP: 1, fades screen for x seconds</div></div>
+              <div class="modal-item"><img src="images/bowser.png" class="center instruction-img"><div>HP: 5, awards 5 points</div></div>
+              <div class="modal-item"><img src="images/mushroom.png" class="center instruction-img"><div>HP: 3, upgrades to AOE clicking</div></div>
+              <div class="modal-item"><img src="images/oneup.png" class="center instruction-img"><div>HP: 5, decreases grid size by 2</div></div>
 
-          <div><img src="images/koopa-green.png" class="instruction-img">HP:1, awards 1 point</div>
-          <div><img src="images/goomba.png" class="instruction-img">HP: 1, awards 1 point</div>
-          <div> <img src="images/ghost.png" class="instruction-img">HP: 1, fades screen for x seconds</div>
-          <div><img src="images/bowser.png" class="instruction-img">HP: 5, awards 5 points</div>
-          <div><img src="images/mushroom.png" class="instruction-img">HP: 3, upgrades to AOE clicking</div>
-          <div><img src="images/1up.png" class="instruction-img">HP: 5, decreases grid size by 2</div>
-          <div><img src="images/piranha.png" class="instruction-img">HP: 1, increases grid size by 2</div>
-          <div><img src="images/bomb.png" class="instruction-img">HP: 1, increases game speed</div>
-          <div><img src="images/star.png" class="instruction-img">HP: 2, decreases game speed</div>
-          <div><img src="images/yoshi.png" class="instruction-img">HP: 1, Yoshi comes to help you out</div>
-          <div><img src="images/peach.png" class="instruction-img">HP: 1, if you hit Peach, Game Over</div>
+            </div>
+            <div class="col-md-6">
 
+              <div class="modal-item"><img src="images/piranha.png" class="center instruction-img"><div>HP: 1, increases grid size by 2</div></div>
+              <div class="modal-item"><img src="images/bomb.png" class="center instruction-img"><div>HP: 1, increases game speed</div></div>
+              <div class="modal-item"><img src="images/star.png" class="center instruction-img"><div>HP: 2, decreases game speed</div></div>
+              <div class="modal-item"><img src="images/yoshi.png" class="center instruction-img"><div>HP: 1, Yoshi comes to help you out</div></div>
+              <div class="modal-item"><img src="images/peach.png" class="center instruction-img"><div>HP: 1, if you hit Peach, Game Over</div></div>
+            </div>
+          </div>
 
 
 
