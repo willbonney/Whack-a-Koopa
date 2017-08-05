@@ -107,13 +107,17 @@ Goomba.prototype.gotClicked = function() {
 
 Ghost.prototype.gotClicked = function() {
   $("#game-container").css("opacity", 0.02);
+  $("#status-text").append("<div> Blinded! </div>")
+  $("#status-text").animate({
+    "scrollTop": $('#status-text')[0].scrollHeight
+  }, "fast");
+
   setTimeout(function() {
     $("#game-container").css("opacity", 1)
   }, 3000);
 };
 
 Mushroom.prototype.gotClicked = function(name, health) {
-
 
   if (name === "mushroom" && health === 1) {
     mushroomPower = true;
@@ -127,27 +131,24 @@ Mushroom.prototype.gotClicked = function(name, health) {
 
 
 Oneup.prototype.gotClicked = function(name, health) {
-  if (health === 1) {
+  if (health === 0) {
     $("#shrink-grid").trigger("click");
   }
 };
 
 Piranha.prototype.gotClicked = function(name, health) {
-  if (health === 1) {
-    $("#grow-grid").trigger("click");
-  }
+  $("#grow-grid").trigger("click");
 };
 
 Bowser.prototype.gotClicked = function(name, health) {
   console.log("Bowser clicked");
 };
 Bomb.prototype.gotClicked = function(name, health) {
-  if (health === 1) {
-    $("#fast-button").trigger("click");
-  }
+  $("#fast-button").trigger("click");
 };
 Star.prototype.gotClicked = function(name, health) {
-  if (health === 1) {
+  if (health === 0) {
+    console.log("health is one");
     $("#slow-button").trigger("click");
   }
 };
@@ -188,12 +189,17 @@ const unitCollection = [oneup,
 
 
 let points = 0;
-let gridSize = 8;
+let gridSize = 6;
 let flipSpeed = 600;
 let maxFlipped = 10;
 let mushroomPower = false;
+let tileCountdownArray = [];
 
 $(document).ready(function() {
+
+  //win loss conditions
+
+  //
 
   //grab dom elements
   const gameContainer = $("#game-container");
@@ -241,15 +247,26 @@ $(document).ready(function() {
 
   //grow gridSize
   function growGridSize(increase) {
-    $("#game-container").empty();
-    gridSize += increase;
-    console.log("new gridsize", gridSize);
-    addRows(gridSize);
-    gameRow = $(".game-row");
-    addColumns(gridSize);
-    tiles = $(".tile");
-    assignClasses();
-    $("#start-button").trigger("click");
+    if (gridSize >= 8) {
+      console.log("larger than 8");
+      return;
+    } else {
+      $("#game-container").empty();
+      gridSize += increase;
+      let gridSizeStatus = '<div> Grid Size changed to ' + gridSize + '</div>';
+      $('#status-text').append(gridSizeStatus);
+      $("#status-text").animate({
+        "scrollTop": $('#status-text')[0].scrollHeight
+      }, "fast");
+      console.log("new gridsize is", gridSize);
+      addRows(gridSize);
+      gameRow = $(".game-row");
+      addColumns(gridSize);
+      tiles = $(".tile");
+      assignClasses();
+      tileCountdownArray.length = 0;
+      $("#start-button").trigger("click");
+    }
 
   };
 
@@ -261,12 +278,18 @@ $(document).ready(function() {
     } else {
       $("#game-container").empty();
       gridSize -= decrease;
-      console.log("new gridsize", gridSize);
+      let gridSizeStatus = '<div> Grid Size changed to ' + gridSize + '</div>';
+      $('#status-text').append(gridSizeStatus);
+      $("#status-text").animate({
+        "scrollTop": $('#status-text')[0].scrollHeight
+      }, "fast");
+      console.log("new grid size is " + gridSize);
       addRows(gridSize);
       gameRow = $(".game-row")
       addColumns(gridSize);
       tiles = $(".tile");
       assignClasses();
+      tileCountdownArray.length = 0;
       $("#start-button").trigger("click");
     }
   };
@@ -286,7 +309,6 @@ $(document).ready(function() {
 
   //start game logic
   $("#start-button").on("click", function() {
-    let tileCountdownArray = [];
     $(".tile").data("unit", {
       health: 0
     });
@@ -328,33 +350,33 @@ $(document).ready(function() {
     }
 
     let flipInterval = setInterval(flip, flipSpeed);
+    //need to reset this?
+    function unflip() {
+      if (tileCountdownArray.length > maxFlipped) {
+        const oldestTile = _.head(tileCountdownArray);
+        oldestTile.removeClass("flipped");
+        oldestTile.css("background", "url('images/block.png')");
+        oldestTile.find(".unit-health").remove();
+        _.remove(tileCountdownArray, oldestTile);
 
-    function changeSpeed(change) {
-      if (flipSpeed + change < 200) {
-        return
-      } else {
-        flipSpeed += change;
-        clearInterval(flipInterval);
-        flipInterval = setInterval(flip, flipSpeed);
-        clearInterval(unflipInterval);
-        unflipInterval = setInterval(unflip, flipSpeed);
-        console.log("changed speed to ", flipSpeed);
+        points -= oldestTile.data("unit").health;;
+        updateScore();
       }
     }
 
-    $("#fast-button").on("click", function() {
-      changeSpeed(-200);
-    });
+    let unflipInterval = setInterval(unflip, flipSpeed);
 
-    $("#slow-button").on("click", function() {
-      changeSpeed(200);
-    });
+
 
 
 
     $(".tile").on("click", function() {
       if ($(this).hasClass("flipped")) {
         $(this).animateCss("pulse");
+
+        $(this).data("unit").health -= 1;
+        $(this).find(".unit-health").html($(this).data("unit").health); //so ugly
+
         const unitPoints = $(this).data("unit").points;
         const unitName = $(this).data("unit").name;
         const unitHealth = $(this).data("unit").health;
@@ -362,16 +384,13 @@ $(document).ready(function() {
         const clickCol = $(this).attr('class').match(/\bc(\d+)\b/)[1];
         const clickRow = $(this).parent().attr('class').match(/\br(\d+)\b/)[1];;
 
-        $(this).data("unit").health -= 1;
-        $(this).find(".unit-health").html($(this).data("unit").health); //so ugly
+        unitClick(unitName, unitHealth); //pass things here
 
         if ($(this).data("unit").health === 0) {
           killIt(this);
-        }
+        };
 
-        unitClick(unitName, unitHealth); //pass things here
 
-        console.log(mushroomPower);
 
         if (mushroomPower === true) {
 
@@ -430,26 +449,12 @@ $(document).ready(function() {
 
         } //end mushroom
 
-        //need to reset this?
-        function unflip() {
-          if (tileCountdownArray.length > maxFlipped) {
-            const oldestTile = _.head(tileCountdownArray);
-            oldestTile.removeClass("flipped");
-            oldestTile.css("background", "url('images/block.png')");
-            oldestTile.find(".unit-health").remove();
-            _.remove(tileCountdownArray, oldestTile);
 
-            points -= oldestTile.data("unit").health;;
-            updateScore();
-          }
-        }
-
-        let unflipInterval = setInterval(unflip, flipSpeed);
 
         function killIt(target, givePoints = true) {
-          if(givePoints === true){
-          points += unitPoints;
-        }
+          if (givePoints === true) {
+            points += unitPoints;
+          }
           //update score
           updateScore();
           $(target).removeClass("flipped");
@@ -457,34 +462,61 @@ $(document).ready(function() {
           _.remove(tileCountdownArray, $(target));
           $(target).data("unit").health = 0;
           $(target).find(".unit-health").remove();
-          return;
         };
 
-
-      }
-
-      //yoshi setInterval not working
-      $("#yoshi-button").on("click", function() {
-        const numberFlipped = $(".flipped").length;
-        for (let i = 0; i < numberFlipped; i++) {
-          let flippedTiles = $(".flipped");
-          let yoshiFlip = flippedTiles[i];
+        //yoshi setInterval not working
+        $("#yoshi-button").on("click", function() {
+          const numberFlipped = $(".flipped").length;
+          for (let i = 0; i < numberFlipped; i++) {
+            let flippedTiles = $(".flipped");
+            let yoshiFlip = flippedTiles[i];
 
 
-          killIt($(yoshiFlip), false);
+            killIt($(yoshiFlip), false);
 
-          $(yoshiFlip).animateCss("shake");
-          $(yoshiFlip).removeData();
+            $(yoshiFlip).animateCss("shake");
+            $(yoshiFlip).removeData();
 
-          $("#yoshi-button").hide();
-        }; //for loop end
+            $("#yoshi-button").hide();
+          }; //for loop end
 
-      });
+        }); //yoshi onclick end
+
+      }; //if this hasclass flipped end
+
+
 
 
     }); //tile onclick end
-  });
+    $("#fast-button").on("click", function() {
+      changeSpeed(-200);
+    });
 
-//win loss conditions
+    $("#slow-button").on("click", function() {
+      changeSpeed(200);
+    });
+
+    function changeSpeed(change) {
+      if ((flipSpeed + change) < 200 || (flipSpeed + change) > 1200) {
+
+      } else {
+        clearInterval(flipInterval);
+        clearInterval(unflipInterval);
+        flipSpeed += change;
+
+        flipInterval = setInterval(flip, flipSpeed);
+        unflipInterval = setInterval(unflip, flipSpeed);
+
+        let speedStatus = '<div> Game Speed changed to ' + flipSpeed + '</div>';
+        $('#status-text').append(speedStatus);
+        $("#status-text").animate({
+          "scrollTop": $('#status-text')[0].scrollHeight
+        }, "fast");
+        console.log("new speed is " + flipSpeed);
+      }
+    };
+  }); //start onclick end
+
+  //win loss conditions
 
 });

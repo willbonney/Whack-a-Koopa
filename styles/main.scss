@@ -46,13 +46,13 @@ body {
   left: 42px;
 }
 
-#yoshi-button,
-#grow-grid,
-#shrink-grid,
-#fast-button,
-#slow-button{
-  display: none;
-};
+// #yoshi-button,
+// #grow-grid,
+// #shrink-grid,
+// #fast-button,
+// #slow-button{
+//   display: none;
+// };
 
 video.fullscreen {
   position: fixed;
@@ -77,4 +77,13 @@ video.fullscreen {
   border: 3px solid #fa4408;
     border-radius: 5px;
     cursor: crosshair;
+}
+
+#status-text{
+  width: 200px;
+  height: 300px;
+  overflow-y: scroll;
+  background: #fff;
+  border: solid 1px #fff;
+  border-radius: 5px;
 }
