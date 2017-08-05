@@ -12,20 +12,30 @@
   <title>Whack-a-Koopa</title>
 </head>
 <!--
-todo:
-write in logic instead of button click for powerups/downs
-animations
 sounds
 bg
-win & loss conditions
  -->
 
 <body>
 
-  <div class="container-fluid normal-background">
-    <!-- <video class="fullscreen" src="video.webm" poster="" playsinline autoplay muted loop></video> -->
+  <audio id="start-sound" src="sounds/start.wav"></audio>
+  <audio id="koopa-sound" src="sounds/koopa.wav"></audio>
+  <audio id="peach-sound" src="sounds/peach.wav"></audio>
+  <audio id="goomba-sound" src="sounds/goomba.wav"></audio>
+  <!-- <audio id="ghost-sound" src="sounds/ghost.wav"></audio> -->
+  <audio id="mushroom-sound" src="sounds/mushroom.wav"></audio>
+  <audio id="oneup-sound" src="sounds/oneup.wav"></audio>
+  <audio id="piranha-sound" src="sounds/piranha.wav"></audio>
+  <audio id="bowser-sound" src="sounds/bowser.wav"></audio>
+  <audio id="bomb-sound" src="sounds/bomb.wav"></audio>
+  <!-- <audio id="star-sound" src="sounds/star.wav"></audio> -->
+  <audio id="yoshi-sound" src="sounds/yoshi.wav"></audio>
+  <!-- <button onclick="document.getElementById('bflat').play()">Play!</button> -->
+
+  <div class="container-fluid">
+    <video class="fullscreen" src="video.webm" poster="" playsinline autoplay muted loop></video>
     <div class="row">
-      <h1 class="text-center">Whack a Koopa</h1>
+      <h1 class="text-center" id="title">Whack a Koopa</h1>
       <button id="start-button">Start</button>
     </div>
 
@@ -33,7 +43,20 @@ win & loss conditions
 
 
       <div id="left-panel" class="col-xs-2 pull-left">
-        <h3>SCORE: <span id="points"></span></h3>
+
+
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            <h3 class="panel-title">SCORE:<span id="points"></span></h3>
+          </div>
+          <div class="panel-body">
+            <ul>
+              <li>Get to 100 points to win</li>
+              <li>You lose if you hit -100 points</li>
+              <li>You lose if you whack the Pricess</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div id="game-container" class="text-center col-xs-8">
@@ -42,19 +65,27 @@ win & loss conditions
 
       <div id="right-panel" class="col-xs-2 pull-right">
 
-        POWERUP
-        <div class="form-group">
-          <h3>Log</h3>
-          <div id="status-text"></div>
+
+
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            <h3 class="panel-title">STATUS:<span id="points"></span></h3>
           </div>
-        <button id="yoshi-button">YOSHI</button>
-        <button id="grow-grid">GROW</button>
-        <button id="shrink-grid">SHRINK</button>
-        <button id="fast-button">FAST</button>
-        <button id="slow-button">SLOW</button>
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Modal
-</button>
+          <div class="panel-body">
+            <div class="form-group">
+              <h3>Log</h3>
+              <div id="status-text"></div>
+            </div>
+            <div id="yoshi-button"><span id="use-yoshi">USE YOSHI</span></div>
+            <button id="grow-grid">GROW</button>
+            <button id="shrink-grid">SHRINK</button>
+            <button id="fast-button">FAST</button>
+            <button id="slow-button">SLOW</button>
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Modal</button>
+          </div>
+        </div>
+
+
 
       </div>
 
@@ -70,7 +101,7 @@ win & loss conditions
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h2 class="modal-title" id="myModalLabel">Welcome to Wack-A-Koopa</h2>
+          <h2 class="modal-title mario-font text-center" id="myModalLabel">Welcome to Whack-A-Koopa</h2>
         </div>
         <div class="modal-body">
           <div class="row">

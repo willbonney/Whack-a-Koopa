@@ -14,7 +14,6 @@ const Peach = function() {
   this.health = 1;
   this.points = 1;
   this.imageSrc = "images/peach.png";
-  this.sound = "sounds/peach.wav";
 }
 const Koopa = function() {
   this.health = 1;
@@ -22,21 +21,18 @@ const Koopa = function() {
   this.colors = ["red", "green", "white", "wings", "mecha", "blue"];
   this.color = _.sample(this.colors);
   this.imageSrc = "images/koopa-" + this.color + ".png";
-  this.sound = "sounds/koopa.wav";
 }
 
 const Goomba = function() {
   this.health = 1;
   this.points = 1;
   this.imageSrc = "images/goomba.png";
-  this.sound = "sounds/goomba.wav";;
 }
 
 const Bowser = function() {
   this.health = 5;
   this.points = 5;
   this.imageSrc = "images/bowser.png";
-  this.sound = "sounds/bowser.wav";
 }
 
 const Ghost = function() {
@@ -44,21 +40,18 @@ const Ghost = function() {
   this.health = 1;
   this.points = -5;
   this.imageSrc = "images/ghost.png"
-  this.sound = "sounds/ghost.wav"
 }
 const Oneup = function() {
   this.name = "oneup";
   this.health = 10;
   this.points = 10;
   this.imageSrc = "images/oneup.png"
-  this.sound = "sounds/oneup.wav"
 }
 const Piranha = function() {
   this.name = "piranha";
   this.health = 1;
   this.points = -5;
   this.imageSrc = "images/piranha.png"
-  this.sound = "sounds/piranha.wav"
 }
 
 const Mushroom = function() {
@@ -66,46 +59,44 @@ const Mushroom = function() {
   this.health = 3;
   this.points = 5;
   this.imageSrc = "images/mushroom.png";
-  this.sound = "sounds/mushroom.wav";
 }
 
 const Bomb = function() {
   this.health = 1;
   this.points = -3;
   this.imageSrc = "images/bomb.png";
-  this.sound = "sounds/bomb.wav";
 }
 
 const Star = function() {
   this.health = 5;
   this.points = 10;
   this.imageSrc = "images/star.png";
-  this.sound = "sounds/star.wav";
 }
 
 const Yoshi = function() {
   this.health = 1;
   this.points = 10;
   this.imageSrc = "images/yoshi.png";
-  this.sound = "sounds/yoshi.wav";
 }
 
 
 Peach.prototype.gotClicked = function() {
+  $("#peach-sound")[0].play();
   alert("you lose");
   clearInterval(flipInterval); //not defined
   return;
 };
 
 Koopa.prototype.gotClicked = function() {
-  console.log(this);
+  $("#koopa-sound")[0].play();
 };
 
 Goomba.prototype.gotClicked = function() {
-  console.log(this);
+  $("#goomba-sound")[0].play();
 };
 
 Ghost.prototype.gotClicked = function() {
+  $("#ghost-sound")[0].play();
   $("#game-container").css("opacity", 0.02);
   $("#status-text").append("<div> Blinded! </div>")
   $("#status-text").animate({
@@ -118,6 +109,7 @@ Ghost.prototype.gotClicked = function() {
 };
 
 Mushroom.prototype.gotClicked = function(name, health) {
+  $("#mushroom-sound")[0].play();
 
   if (name === "mushroom" && health === 1) {
     mushroomPower = true;
@@ -131,29 +123,36 @@ Mushroom.prototype.gotClicked = function(name, health) {
 
 
 Oneup.prototype.gotClicked = function(name, health) {
+
   if (health === 0) {
+    $("#oneup-sound")[0].play();
     $("#shrink-grid").trigger("click");
   }
 };
 
 Piranha.prototype.gotClicked = function(name, health) {
+  $("#piranha-sound")[0].play();
   $("#grow-grid").trigger("click");
 };
 
 Bowser.prototype.gotClicked = function(name, health) {
+  $("#bowser-sound")[0].play();
   console.log("Bowser clicked");
 };
 Bomb.prototype.gotClicked = function(name, health) {
+  $("#bomb-sound")[0].play();
   $("#fast-button").trigger("click");
 };
 Star.prototype.gotClicked = function(name, health) {
   if (health === 0) {
+    $("#star-sound")[0].play();
     console.log("health is one");
     $("#slow-button").trigger("click");
   }
 };
 
 Yoshi.prototype.gotClicked = function(name, health) {
+  $("#yoshi-sound")[0].play();
   $("#yoshi-button").show();
 
 };
@@ -196,6 +195,24 @@ let mushroomPower = false;
 let tileCountdownArray = [];
 
 $(document).ready(function() {
+
+  $("#easy-mode").on("click", function() {
+    gridSize = 4;
+    flipSpeed = 800;
+    maxFlipped = 10;
+  });
+
+  $("#normal-mode").on("click", function() {
+    gridSize = 6;
+    flipSpeed = 600;
+    maxFlipped = 7;
+  });
+
+  $("#hard-mode").on("click", function() {
+    gridSize = 8;
+    flipSpeed = 400;
+    maxFlipped = 5;
+  });
 
   //win loss conditions
 
@@ -309,12 +326,24 @@ $(document).ready(function() {
 
   //start game logic
   $("#start-button").on("click", function() {
+    // $("#start-sound")[0].play();
     $(".tile").data("unit", {
       health: 0
     });
 
     function updateScore() {
       $("#points").text(points);
+
+      if (points >= 1000) {
+        alert("you win");
+        clearInterval(flipInterval);
+        clearInterval(unflipInterval);
+      }
+      if (points <= -1000) {
+        alert("you lose");
+        clearInterval(flipInterval);
+        clearInterval(unflipInterval);
+      }
 
     }
 
@@ -466,9 +495,9 @@ $(document).ready(function() {
 
         //yoshi setInterval not working
         $("#yoshi-button").on("click", function() {
-          const numberFlipped = $(".flipped").length;
+          let numberFlipped = $(".flipped").length;
+          let flippedTiles = $(".flipped");
           for (let i = 0; i < numberFlipped; i++) {
-            let flippedTiles = $(".flipped");
             let yoshiFlip = flippedTiles[i];
 
 
@@ -478,7 +507,7 @@ $(document).ready(function() {
             $(yoshiFlip).removeData();
 
             $("#yoshi-button").hide();
-          }; //for loop end
+          }; //yoshi for loop end
 
         }); //yoshi onclick end
 
@@ -515,7 +544,10 @@ $(document).ready(function() {
         console.log("new speed is " + flipSpeed);
       }
     };
+
+
   }); //start onclick end
+
 
   //win loss conditions
 

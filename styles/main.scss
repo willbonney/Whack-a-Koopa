@@ -9,6 +9,21 @@ $alt-2: #fff;
 body {
   background-color: $base;
 }
+@font-face {
+  font-family: 'SuperMario256';
+  /*to use later*/
+  src: url('../SuperMario256.ttf');
+  /*URL to the font*/
+}
+
+#title {
+  font-family: "SuperMario256";
+  font-size: 56px;
+}
+
+.mario-font {
+  font-family: "SuperMario256";
+}
 
 .tile {
   width: 100px;
@@ -19,6 +34,11 @@ body {
   margin: 0 5px;
   background-size: contain !important;
   background-repeat: no-repeat !important;
+  border-radius: 5px;
+
+  .flipped {
+    background: #fff;
+  }
 }
 
 #game-container {
@@ -40,12 +60,11 @@ body {
 }
 
 .unit-health {
-  font-size: 24px;
+  font-size: 20px;
   position: relative;
   bottom: 4px;
-  left: 42px;
+  left: 38px;
 }
-
 // #yoshi-button,
 // #grow-grid,
 // #shrink-grid,
@@ -66,24 +85,57 @@ video.fullscreen {
   transform: translate(-50%, -50%);
 }
 
-.modal-item{
+.modal-item {
   font-size: 1.5em;
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
 }
 
-.tile:hover{
+.tile:hover {
   border: 3px solid #fa4408;
-    border-radius: 5px;
-    cursor: crosshair;
+  border-radius: 5px;
+  cursor: crosshair;
 }
 
-#status-text{
+#status-text {
   width: 200px;
   height: 300px;
   overflow-y: scroll;
   background: #fff;
   border: solid 1px #fff;
   border-radius: 5px;
+}
+
+#yoshi-button {
+  background: url("../images/yoshi-button.png");
+  background-size: contain;
+  width: 105px;
+  height: 105px;
+  border: 2px solid #000;
+  border-radius: 5px;
+
+  &:hover {
+    cursor: pointer;
+    border: 3px dashed #2FF62F;
+    opacity: 0.8;
+
+    #use-yoshi {
+      display: block;
+    }
+  }
+}
+
+#use-yoshi {
+  display: none;
+  font-size: 1.2em;
+  color: #000;
+  position: relative;
+  top: 73px;
+  left: 5px;
+  background: rgba(255,255,255,0.6);
+}
+
+video {
+  opacity: 0.5;
 }
