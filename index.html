@@ -9,31 +9,50 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   <link rel="stylesheet" href="styles/main.min.css">
+  <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="manifest" href="favicon/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
   <title>Whack-a-Koopa</title>
 </head>
-<!--
-sounds
-bg
- -->
 
 <body>
 
   <audio id="start-sound" src="sounds/start.wav"></audio>
+  <audio id="win-sound" src="sounds/yahoo.wav"></audio>
+  <audio id="lose-sound" src="sounds/lose.wav"></audio>
+
+
+
   <audio id="koopa-sound" src="sounds/koopa.wav"></audio>
   <audio id="peach-sound" src="sounds/peach.wav"></audio>
   <audio id="goomba-sound" src="sounds/goomba.wav"></audio>
-  <!-- <audio id="ghost-sound" src="sounds/ghost.wav"></audio> -->
+  <audio id="ghost-sound" src="sounds/ghost.wav"></audio>
   <audio id="mushroom-sound" src="sounds/mushroom.wav"></audio>
   <audio id="oneup-sound" src="sounds/oneup.wav"></audio>
   <audio id="piranha-sound" src="sounds/piranha.wav"></audio>
   <audio id="bowser-sound" src="sounds/bowser.wav"></audio>
   <audio id="bomb-sound" src="sounds/bomb.wav"></audio>
-  <!-- <audio id="star-sound" src="sounds/star.wav"></audio> -->
+  <audio id="star-sound" src="sounds/star.wav"></audio>
   <audio id="yoshi-sound" src="sounds/yoshi.wav"></audio>
+  <audio id="yoshi-sound2" src="sounds/yoshi-go.wav"></audio>
   <!-- <button onclick="document.getElementById('bflat').play()">Play!</button> -->
 
   <div class="container-fluid">
-    <video class="fullscreen" src="video.webm" poster="" playsinline autoplay muted loop></video>
+    <video class="fullscreen" src="video.mp4" poster="" playsinline autoplay muted loop></video>
     <div class="row">
       <h1 class="text-center" id="title">Whack a Koopa</h1>
       <button id="start-button">Start</button>
@@ -42,18 +61,18 @@ bg
     <div class="row">
 
 
-      <div id="left-panel" class="col-xs-2 pull-left">
+      <div id="left-panel" class="col-xs-2">
 
 
         <div class="panel panel-warning">
           <div class="panel-heading">
-            <h3 class="panel-title">SCORE:<span id="points"></span></h3>
+            <h3 class="panel-title">SCORE: <span id="points"></span></h3>
           </div>
           <div class="panel-body">
-            <ul>
+            <ul class="bullet-list">
               <li>Get to 100 points to win</li>
               <li>You lose if you hit -100 points</li>
-              <li>You lose if you whack the Pricess</li>
+              <li>You lose if you whack the Princess</li>
             </ul>
           </div>
         </div>
@@ -63,7 +82,7 @@ bg
 
       </div>
 
-      <div id="right-panel" class="col-xs-2 pull-right">
+      <div id="right-panel" class="col-xs-2">
 
 
 
@@ -73,15 +92,16 @@ bg
           </div>
           <div class="panel-body">
             <div class="form-group">
-              <h3>Log</h3>
+
               <div id="status-text"></div>
             </div>
-            <div id="yoshi-button"><span id="use-yoshi">USE YOSHI</span></div>
+            <div id="yoshi-button" onclick="document.getElementById('yoshi-sound2').play()"><span id="use-yoshi">USE YOSHI</span></div>
+            <div id="mushroom-icon" class="animated flash infinite"><span>ACTIVE</span></div>
             <button id="grow-grid">GROW</button>
             <button id="shrink-grid">SHRINK</button>
             <button id="fast-button">FAST</button>
             <button id="slow-button">SLOW</button>
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Modal</button>
+            <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Instructions</button>
           </div>
         </div>
 
@@ -105,7 +125,7 @@ bg
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
               <div class="modal-item"><img src="images/koopa-green.png" class="center instruction-img">
                 <div>HP:1, awards 1 point</div>
               </div>
@@ -113,8 +133,13 @@ bg
                 <div>HP: 1, awards 1 point</div>
               </div>
               <div class="modal-item"> <img src="images/ghost.png" class="center instruction-img">
-                <div>HP: 1, fades screen for x seconds</div>
+                <div>HP: 1, fades screen for 3 seconds</div>
               </div>
+
+
+            </div>
+
+            <div class="col-md-3">
               <div class="modal-item"><img src="images/bowser.png" class="center instruction-img">
                 <div>HP: 5, awards 5 points</div>
               </div>
@@ -124,10 +149,9 @@ bg
               <div class="modal-item"><img src="images/oneup.png" class="center instruction-img">
                 <div>HP: 5, decreases grid size by 2</div>
               </div>
-
             </div>
-            <div class="col-md-6">
 
+            <div class="col-md-3">
               <div class="modal-item"><img src="images/piranha.png" class="center instruction-img">
                 <div>HP: 1, increases grid size by 2</div>
               </div>
@@ -137,6 +161,15 @@ bg
               <div class="modal-item"><img src="images/star.png" class="center instruction-img">
                 <div>HP: 2, decreases game speed</div>
               </div>
+</div>
+
+
+
+
+              <div class="col-md-3">
+
+
+
               <div class="modal-item"><img src="images/yoshi.png" class="center instruction-img">
                 <div>HP: 1, Yoshi comes to help you out</div>
               </div>
@@ -150,10 +183,12 @@ bg
 
         </div>
         <div class="modal-footer">
-
-          <button id="easy" type="button" class="btn btn-primary modal-btn">Easy</button>
-          <button id="medium" type="button" class="btn btn-primary modal-btn">Medium</button>
-          <button id="hard" type="button" class="btn btn-primary modal-btn">Hard</button>
+          <h3 class="text-center">Select Difficulty</h3>
+          <div class="text-center">
+          <button id="easy-mode" type="button" class="btn btn-primary modal-btn">Easy</button>
+          <button id="medium-mode" type="button" class="btn btn-primary modal-btn">Medium</button>
+          <button id="hard-mode" type="button" class="btn btn-primary modal-btn">Hard</button>
+          </div>
         </div>
       </div>
     </div>

@@ -19,8 +19,14 @@ body {
 #title {
   font-family: "SuperMario256";
   font-size: 56px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 5px;
+  width: 600px;
+  margin: 0 auto;
 }
-
+.panel-title{
+  font-family: "SuperMario256"
+}
 .mario-font {
   font-family: "SuperMario256";
 }
@@ -41,10 +47,19 @@ body {
   }
 }
 
+
 #game-container {
+  margin-top: 5%;
+
   .row {
-    min-width: 900px;
+
+    // width: 800px;
   }
+}
+
+#left-panel,
+#right-panel {
+  margin-top: 5%;
 }
 
 .normal-background {
@@ -86,7 +101,6 @@ video.fullscreen {
 }
 
 .modal-item {
-  font-size: 1.5em;
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
@@ -99,9 +113,10 @@ video.fullscreen {
 }
 
 #status-text {
-  width: 200px;
-  height: 300px;
+  width: 180px;
+  height: 250px;
   overflow-y: scroll;
+  overflow-x: auto;
   background: #fff;
   border: solid 1px #fff;
   border-radius: 5px;
@@ -138,4 +153,31 @@ video.fullscreen {
 
 video {
   opacity: 0.5;
+}
+
+#mushroom-icon {
+  display: none;
+  background: url("../images/mushroom.png");
+  background-size: contain;
+  width: 105px;
+  height: 105px;
+  border: 2px solid #000;
+  border-radius: 5px;
+
+  span {
+    font-size: 1.2em;
+    color: #000;
+    position: relative;
+    top: 77px;
+    left: 18px;
+    background: rgba(255,255,255,0.6);
+  }
+}
+
+.bullet-list{
+  padding-left: 15px;
+}
+
+.modal-footer{
+  margin-bottom: 50px;
 }

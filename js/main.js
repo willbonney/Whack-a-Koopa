@@ -109,13 +109,18 @@ Ghost.prototype.gotClicked = function() {
 };
 
 Mushroom.prototype.gotClicked = function(name, health) {
-  $("#mushroom-sound")[0].play();
 
   if (name === "mushroom" && health === 1) {
+    $("#mushroom-sound")[0].play();
     mushroomPower = true;
-    console.log("mushroom proto");
+    $("#status-text").append("<div> Mushroom Power Activated! </div>");
+    $("#status-text").animate({
+      "scrollTop": $('#status-text')[0].scrollHeight
+    }, "fast");
+    $("#mushroom-icon").show()
     setTimeout(function() {
       mushroomPower = false;
+      $("#mushroom-icon").hide()
     }, 15000);
   };
 
@@ -289,7 +294,7 @@ $(document).ready(function() {
 
   //shrink gridSize
   function shrinkGridSize(decrease) {
-    if (gridSize <= 6) {
+    if (gridSize <= 4) {
       console.log("smaller than 6");
       return;
     } else {
@@ -334,12 +339,14 @@ $(document).ready(function() {
     function updateScore() {
       $("#points").text(points);
 
-      if (points >= 1000) {
+      if (points >= 100) {
+        $("#win-sound")[0].play();
         alert("you win");
         clearInterval(flipInterval);
         clearInterval(unflipInterval);
       }
-      if (points <= -1000) {
+      if (points <= -100) {
+        $("#lose-sound")[0].play();
         alert("you lose");
         clearInterval(flipInterval);
         clearInterval(unflipInterval);
@@ -527,7 +534,7 @@ $(document).ready(function() {
 
     function changeSpeed(change) {
       if ((flipSpeed + change) < 200 || (flipSpeed + change) > 1200) {
-
+        console.log("speed limit exceeded");
       } else {
         clearInterval(flipInterval);
         clearInterval(unflipInterval);
