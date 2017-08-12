@@ -85,19 +85,19 @@ const Yoshi = function() {
   this.imageSrc = "images/yoshi.png";
 }
 
-
 Thwomp.prototype.gotClicked = function() {
+  $("#thwomp-sound")[0].play();
   $(".tile").css("width", "20px");
   $(".tile").css("height", "20px");
-  setInterval(function(){
+  setInterval(function() {
     $(".tile").css("width", "100px");
     $(".tile").css("height", "100px");
-  },5000);
+  }, 5000);
 };
 
 Peach.prototype.gotClicked = function() {
   $("#peach-sound")[0].play();
-  alert("you lose");
+  alert("You whacked the pricess, Game Over!");
   clearInterval(flipInterval); //not defined
   return;
 };
@@ -112,7 +112,7 @@ Goomba.prototype.gotClicked = function() {
 
 Ghost.prototype.gotClicked = function() {
   $("#ghost-sound")[0].play();
-  $("#game-container").css("opacity", 0.02);
+  $("#game-container").css("opacity", 0.05);
   $("#status-text").append("<div> Blinded! </div>")
   $("#status-text").animate({
     "scrollTop": $('#status-text')[0].scrollHeight
@@ -187,11 +187,26 @@ koopa7 = new Koopa();
 koopa8 = new Koopa();
 koopa9 = new Koopa();
 koopa10 = new Koopa();
+koopa11 = new Koopa();
+koopa12 = new Koopa();
+koopa13 = new Koopa();
+koopa14 = new Koopa();
+koopa15 = new Koopa();
+koopa16 = new Koopa();
+koopa17 = new Koopa();
+koopa18 = new Koopa();
+koopa19 = new Koopa();
+koopa20 = new Koopa();
 goomba = new Goomba();
 goomba2 = new Goomba();
 goomba3 = new Goomba();
 goomba4 = new Goomba();
 goomba5 = new Goomba();
+goomba6 = new Goomba();
+goomba7 = new Goomba();
+goomba8 = new Goomba();
+goomba9 = new Goomba();
+goomba10 = new Goomba();
 thwomp = new Thwomp();
 thwomp2 = new Thwomp();
 thwomp3 = new Thwomp();
@@ -199,6 +214,7 @@ thwomp4 = new Thwomp();
 thwomp5 = new Thwomp();
 bowser = new Bowser();
 bowser2 = new Bowser();
+bowser3 = new Bowser();
 peach = new Peach();
 peach2 = new Peach();
 peach3 = new Peach();
@@ -220,16 +236,15 @@ piranha3 = new Piranha();
 piranha4 = new Piranha();
 piranha5 = new Piranha();
 star = new Star();
-star2 = new Star();
 
 const unitCollection = [
   oneup,
   piranha, piranha2, piranha3, piranha4, piranha5,
-  star, star2,
-  goomba, goomba2, goomba3, goomba4, goomba5,
-  koopa, koopa2, koopa3, koopa4, koopa5, koopa6, koopa7, koopa8, koopa10,
+  star,
+  goomba, goomba2, goomba3, goomba4, goomba5, goomba6, goomba7, goomba8, goomba9, goomba10,
+  koopa, koopa2, koopa3, koopa4, koopa5, koopa6, koopa7, koopa8, koopa10, koopa11, koopa12, koopa13, koopa14, koopa15, koopa16, koopa17, koopa18, koopa19, koopa20,
   bomb, bomb2, bomb3,
-  bowser, bowser2,
+  bowser, bowser2, bowser3,
   peach, peach2, peach3,
   ghost, ghost2, ghost3, ghost4, ghost5,
   mushroom, mushroom2,
@@ -241,33 +256,37 @@ const unitCollection = [
 let points = 0;
 let gridSize = 6;
 let flipSpeed = 600;
-let maxFlipped = 7;
+let maxFlipped = 9;
 let mushroomPower = false;
 let tileCountdownArray = [];
 
 $(document).ready(function() {
+  $("#toggle-dev").on("click", function() {
+    console.log("dev");
+    $("#dev-buttons").show();
+  });
+  $('#myModal').modal('show');
 
   $("#easy-mode").on("click", function() {
     gridSize = 4;
     flipSpeed = 800;
-    maxFlipped = 10;
+    maxFlipped = 11;
+    modifyGrid();
   });
 
-  $("#normal-mode").on("click", function() {
+  $("#medium-mode").on("click", function() {
     gridSize = 6;
     flipSpeed = 600;
-    maxFlipped = 7;
+    maxFlipped = 9;
+    modifyGrid();
   });
 
   $("#hard-mode").on("click", function() {
     gridSize = 8;
     flipSpeed = 400;
-    maxFlipped = 5;
+    maxFlipped = 7;
+    modifyGrid();
   });
-
-  $('#myModal').modal('show');
-
-
 
   const gameContainer = $("#game-container");
   const tileInsert = "<div class='tile'></div>";
@@ -311,6 +330,14 @@ $(document).ready(function() {
 
   assignClasses();
 
+  function modifyGrid() {
+    $("#game-container").empty();
+    addRows(gridSize);
+    gameRow = $(".game-row");
+    addColumns(gridSize);
+    tiles = $(".tile");
+    assignClasses();
+  }
 
   //grow gridSize
   function growGridSize(increase) {
@@ -318,7 +345,6 @@ $(document).ready(function() {
       console.log("larger than 8");
       return;
     } else {
-      $("#game-container").empty();
       gridSize += increase;
       let gridSizeStatus = '<div> Grid Size changed to ' + gridSize + '</div>';
       $('#status-text').append(gridSizeStatus);
@@ -326,11 +352,7 @@ $(document).ready(function() {
         "scrollTop": $('#status-text')[0].scrollHeight
       }, "fast");
       console.log("new gridsize is", gridSize);
-      addRows(gridSize);
-      gameRow = $(".game-row");
-      addColumns(gridSize);
-      tiles = $(".tile");
-      assignClasses();
+      modifyGrid();
       tileCountdownArray.length = 0;
       $("#start-button").trigger("click");
     }
@@ -343,7 +365,6 @@ $(document).ready(function() {
       console.log("smaller than 6");
       return;
     } else {
-      $("#game-container").empty();
       gridSize -= decrease;
       let gridSizeStatus = '<div> Grid Size changed to ' + gridSize + '</div>';
       $('#status-text').append(gridSizeStatus);
@@ -351,28 +372,21 @@ $(document).ready(function() {
         "scrollTop": $('#status-text')[0].scrollHeight
       }, "fast");
       console.log("new grid size is " + gridSize);
-      addRows(gridSize);
-      gameRow = $(".game-row")
-      addColumns(gridSize);
-      tiles = $(".tile");
-      assignClasses();
+      modifyGrid();
       tileCountdownArray.length = 0;
       $("#start-button").trigger("click");
     }
   };
-
 
   $("#grow-grid").on("click", function() {
     console.log("grow");
     growGridSize(1);
   });
 
-
   $("#shrink-grid").on("click", function() {
     console.log("shrink");
     shrinkGridSize(1);
   });
-
 
   //start game logic
   $("#start-button").on("click", function() {
@@ -381,7 +395,6 @@ $(document).ready(function() {
     $('#status-text').append(`<div>Game Speed: ${flipSpeed}</div>`);
     $('#status-text').append(`<div>Max Flipped Tiles: ${maxFlipped}</div>`);
 
-    // $("#start-sound")[0].play();
     $(".tile").data("unit", {
       health: 0
     });
@@ -391,19 +404,17 @@ $(document).ready(function() {
 
       if (points >= 100) {
         $("#win-sound")[0].play();
-        alert("you win");
+        alert("You reached 100 points, You Win!");
         clearInterval(flipInterval);
         clearInterval(unflipInterval);
       }
       if (points <= -100) {
         $("#lose-sound")[0].play();
-        alert("you lose");
+        alert("You reached -100 points, Game Over!");
         clearInterval(flipInterval);
         clearInterval(unflipInterval);
       }
-
     }
-
 
     function flip() {
       //flip tile
@@ -428,11 +439,8 @@ $(document).ready(function() {
           health: chosenUnit.health,
           click: chosenUnit.gotClicked,
           points: chosenUnit.points
-
         });
-
       };
-
     }
 
     let flipInterval = setInterval(flip, flipSpeed);
@@ -448,8 +456,7 @@ $(document).ready(function() {
         _.remove(tileCountdownArray, oldestTile);
         points -= oldestTile.data("unit").health;
         updateScore();
-      }
-      else{
+      } else {
         return;
       }
     }
@@ -459,7 +466,6 @@ $(document).ready(function() {
 
     $(".tile").on("click", function() {
       if ($(this).hasClass("flipped")) {
-        $(this).animateCss("rotateOut");
 
         $(this).data("unit").health -= 1;
         $(this).find(".unit-health").html($(this).data("unit").health); //so ugly
@@ -474,10 +480,9 @@ $(document).ready(function() {
         unitClick(unitName, unitHealth); //pass things here
 
         if ($(this).data("unit").health === 0) {
+          $(this).animateCss("rotateOut");
           killIt(this);
         };
-
-
 
         if (mushroomPower === true) {
 
@@ -532,11 +537,7 @@ $(document).ready(function() {
             }
           };
 
-
-
         } //end mushroom
-
-
 
         function killIt(target, givePoints = true) {
           if (givePoints === true) {
@@ -558,7 +559,6 @@ $(document).ready(function() {
           for (let i = 0; i < numberFlipped; i++) {
             let yoshiFlip = flippedTiles[i];
 
-
             killIt($(yoshiFlip), false);
 
             $(yoshiFlip).animateCss("shake");
@@ -570,9 +570,6 @@ $(document).ready(function() {
         }); //yoshi onclick end
 
       }; //if this hasclass flipped end
-
-
-
 
     }); //tile onclick end
     $("#fast-button").on("click", function() {
@@ -603,9 +600,7 @@ $(document).ready(function() {
       }
     };
 
-
   }); //start onclick end
-
 
   //win loss conditions
 

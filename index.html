@@ -30,13 +30,10 @@
 </head>
 
 <body>
-
+<div id="toggle-dev">!</div>
   <audio id="start-sound" src="sounds/start.wav"></audio>
   <audio id="win-sound" src="sounds/yahoo.wav"></audio>
   <audio id="lose-sound" src="sounds/lose.wav"></audio>
-
-
-
   <audio id="koopa-sound" src="sounds/koopa.wav"></audio>
   <audio id="peach-sound" src="sounds/peach.wav"></audio>
   <audio id="goomba-sound" src="sounds/goomba.wav"></audio>
@@ -49,8 +46,7 @@
   <audio id="star-sound" src="sounds/star.wav"></audio>
   <audio id="yoshi-sound" src="sounds/yoshi.wav"></audio>
   <audio id="yoshi-sound2" src="sounds/yoshi-go.wav"></audio>
-  <!-- <audio id="yoshi-sound3" src="sounds/shrink.wav"></audio> -->
-  <!-- <button onclick="document.getElementById('bflat').play()">Play!</button> -->
+  <audio id="thwomp-sound" src="sounds/shrink.wav"></audio>
 
   <div class="container-fluid">
     <video class="fullscreen" src="video.mp4" poster="" playsinline autoplay muted loop></video>
@@ -59,11 +55,7 @@
     </div>
 
     <div class="row">
-
-
       <div id="left-panel" class="col-xs-2">
-
-
         <div class="panel panel-warning">
           <div class="panel-heading">
             <h3 class="panel-title">SCORE: <span id="points"></span></h3>
@@ -78,14 +70,9 @@
         </div>
       </div>
 
-      <div id="game-container" class="text-center col-xs-8">
-
-      </div>
+      <div id="game-container" class="text-center col-xs-8"></div>
 
       <div id="right-panel" class="col-xs-2">
-
-
-
         <div class="panel panel-warning">
           <div class="panel-heading">
             <h3 class="panel-title">STATUS:<span id="points"></span></h3>
@@ -97,22 +84,17 @@
             </div>
             <div id="yoshi-button" onclick="document.getElementById('yoshi-sound2').play()"><span id="use-yoshi">USE YOSHI</span></div>
             <div id="mushroom-icon" class="animated flash infinite"><span>ACTIVE</span></div>
-            <button id="grow-grid">GROW</button>
-            <button id="shrink-grid">SHRINK</button>
-            <button id="fast-button">FAST</button>
-            <button id="slow-button">SLOW</button>
+            <div id="dev-buttons">
+              <button id="grow-grid">GROW</button>
+              <button id="shrink-grid">SHRINK</button>
+              <button id="fast-button">FAST</button>
+              <button id="slow-button">SLOW</button>
+          </div>
             <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Instructions</button>
           </div>
         </div>
-
-
-
       </div>
-
-
-
     </div>
-
   </div>
 
   <!-- modal -->
@@ -135,10 +117,7 @@
               <div class="modal-item"> <img src="images/ghost.png" class="center instruction-img">
                 <div>HP: 1, fades screen for 3 seconds</div>
               </div>
-
-
             </div>
-
             <div class="col-md-3">
               <div class="modal-item"><img src="images/bowser.png" class="center instruction-img">
                 <div>HP: 5, awards 5 points</div>
@@ -150,7 +129,6 @@
                 <div>HP: 5, decreases grid size by 2</div>
               </div>
             </div>
-
             <div class="col-md-3">
               <div class="modal-item"><img src="images/piranha.png" class="center instruction-img">
                 <div>HP: 1, increases grid size by 2</div>
@@ -162,13 +140,7 @@
                 <div>HP: 5, decreases game speed</div>
               </div>
             </div>
-
-
-
-
             <div class="col-md-3">
-
-
 
               <div class="modal-item"><img src="images/yoshi.png" class="center instruction-img">
                 <div>HP: 1, Yoshi comes to help you out</div>
@@ -182,8 +154,6 @@
             </div>
           </div>
 
-
-
         </div>
         <div class="modal-footer">
           <h4 class="text-center">Select Difficulty and Press Start!</h4>
@@ -191,10 +161,10 @@
             <button id="easy-mode" type="button" class="btn btn-primary modal-btn">Easy</button>
             <button id="medium-mode" type="button" class="btn btn-primary modal-btn">Medium</button>
             <button id="hard-mode" type="button" class="btn btn-primary modal-btn">Hard</button>
-          </div>
+
+        </div>
           <div class="row text-center">
             <button id="start-button" type="button" class="btn btn-success modal-btn">Start Game</button>
-
           </div>
         </div>
       </div>
