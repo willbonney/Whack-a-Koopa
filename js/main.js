@@ -390,6 +390,7 @@ $(document).ready(function() {
 
   //start game logic
   $("#start-button").on("click", function() {
+    $("#start-sound")[0].play();
     $('#myModal').modal('hide');
     $('#status-text').append(`<div>Grid Size: ${gridSize}</div>`);
     $('#status-text').append(`<div>Game Speed: ${flipSpeed}</div>`);

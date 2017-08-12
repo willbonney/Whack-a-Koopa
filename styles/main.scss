@@ -68,7 +68,6 @@ body {
   background: #eee;
 }
 
-
 .instruction-img {
   max-width: 100px;
 }
@@ -79,17 +78,18 @@ body {
   bottom: 4px;
   left: 38px;
 }
-#dev-buttons{
-  display: none;
 
+#dev-buttons {
+  display: none;
 }
-#toggle-dev{
+
+#toggle-dev {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-#yoshi-button{
+#yoshi-button {
   display: none;
 }
 
@@ -185,15 +185,14 @@ video {
 
 .modal-footer {
   margin-bottom: 40px;
-
 }
 
 .modal-btn {
   display: inline-block;
   margin-top: 10px;
-  &:focus{
+
+  &:focus {
     border: 3px solid #000;
     font-weight: 700;
   }
-
 }
