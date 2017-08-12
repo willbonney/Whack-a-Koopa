@@ -24,9 +24,11 @@ body {
   width: 600px;
   margin: 0 auto;
 }
-.panel-title{
-  font-family: "SuperMario256"
+
+.panel-title {
+  font-family: "SuperMario256";
 }
+
 .mario-font {
   font-family: "SuperMario256";
 }
@@ -47,12 +49,10 @@ body {
   }
 }
 
-
 #game-container {
   margin-top: 5%;
 
   .row {
-
     // width: 800px;
   }
 }
@@ -66,9 +66,6 @@ body {
   background: #eee;
 }
 
-.modal-btn {
-  display: inline-block;
-}
 
 .instruction-img {
   max-width: 100px;
@@ -87,6 +84,10 @@ body {
 // #slow-button{
 //   display: none;
 // };
+
+#yoshi-button{
+  display: none;
+}
 
 video.fullscreen {
   position: fixed;
@@ -174,10 +175,21 @@ video {
   }
 }
 
-.bullet-list{
+.bullet-list {
   padding-left: 15px;
 }
 
-.modal-footer{
-  margin-bottom: 50px;
+.modal-footer {
+  margin-bottom: 40px;
+
+}
+
+.modal-btn {
+  display: inline-block;
+  margin-top: 10px;
+  &:focus{
+    border: 3px solid #000;
+    font-weight: 700;
+  }
+
 }

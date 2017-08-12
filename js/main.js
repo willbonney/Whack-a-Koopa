@@ -9,6 +9,12 @@ $.fn.extend({
 });
 
 
+const Thwomp = function() {
+  this.name = "thwomp";
+  this.health = 1;
+  this.points = -5;
+  this.imageSrc = "images/thwomp.png";
+}
 const Peach = function() {
   this.name = "peach";
   this.health = 1;
@@ -79,6 +85,15 @@ const Yoshi = function() {
   this.imageSrc = "images/yoshi.png";
 }
 
+
+Thwomp.prototype.gotClicked = function() {
+  $(".tile").css("width", "20px");
+  $(".tile").css("height", "20px");
+  setInterval(function(){
+    $(".tile").css("width", "100px");
+    $(".tile").css("height", "100px");
+  },5000);
+};
 
 Peach.prototype.gotClicked = function() {
   $("#peach-sound")[0].play();
@@ -165,37 +180,68 @@ Yoshi.prototype.gotClicked = function(name, health) {
 koopa = new Koopa();
 koopa2 = new Koopa();
 koopa3 = new Koopa();
+koopa4 = new Koopa();
+koopa5 = new Koopa();
+koopa6 = new Koopa();
+koopa7 = new Koopa();
+koopa8 = new Koopa();
+koopa9 = new Koopa();
+koopa10 = new Koopa();
+goomba = new Goomba();
+goomba2 = new Goomba();
+goomba3 = new Goomba();
+goomba4 = new Goomba();
+goomba5 = new Goomba();
+thwomp = new Thwomp();
+thwomp2 = new Thwomp();
+thwomp3 = new Thwomp();
+thwomp4 = new Thwomp();
+thwomp5 = new Thwomp();
 bowser = new Bowser();
+bowser2 = new Bowser();
 peach = new Peach();
+peach2 = new Peach();
+peach3 = new Peach();
 ghost = new Ghost();
+ghost2 = new Ghost();
+ghost3 = new Ghost();
+ghost4 = new Ghost();
+ghost5 = new Ghost();
 mushroom = new Mushroom();
+mushroom2 = new Mushroom();
 yoshi = new Yoshi();
-yoshi2 = new Yoshi();
 bomb = new Bomb();
+bomb2 = new Bomb();
+bomb3 = new Bomb();
 oneup = new Oneup();
 piranha = new Piranha();
+piranha2 = new Piranha();
+piranha3 = new Piranha();
+piranha4 = new Piranha();
+piranha5 = new Piranha();
 star = new Star();
+star2 = new Star();
 
-const unitCollection = [oneup,
-  piranha,
-  star,
-  koopa,
-  koopa2,
-  koopa3,
-  bomb,
-  bowser,
-  peach,
-  ghost,
-  mushroom,
+const unitCollection = [
+  oneup,
+  piranha, piranha2, piranha3, piranha4, piranha5,
+  star, star2,
+  goomba, goomba2, goomba3, goomba4, goomba5,
+  koopa, koopa2, koopa3, koopa4, koopa5, koopa6, koopa7, koopa8, koopa10,
+  bomb, bomb2, bomb3,
+  bowser, bowser2,
+  peach, peach2, peach3,
+  ghost, ghost2, ghost3, ghost4, ghost5,
+  mushroom, mushroom2,
   yoshi,
-  yoshi2
+  thwomp, thwomp2, thwomp3, thwomp4, thwomp5
 ];
 
 
 let points = 0;
 let gridSize = 6;
 let flipSpeed = 600;
-let maxFlipped = 10;
+let maxFlipped = 7;
 let mushroomPower = false;
 let tileCountdownArray = [];
 
@@ -219,11 +265,10 @@ $(document).ready(function() {
     maxFlipped = 5;
   });
 
-  //win loss conditions
+  $('#myModal').modal('show');
 
-  //
 
-  //grab dom elements
+
   const gameContainer = $("#game-container");
   const tileInsert = "<div class='tile'></div>";
   const rowInsert = "<div class='row game-row'></div>"
@@ -331,6 +376,11 @@ $(document).ready(function() {
 
   //start game logic
   $("#start-button").on("click", function() {
+    $('#myModal').modal('hide');
+    $('#status-text').append(`<div>Grid Size: ${gridSize}</div>`);
+    $('#status-text').append(`<div>Game Speed: ${flipSpeed}</div>`);
+    $('#status-text').append(`<div>Max Flipped Tiles: ${maxFlipped}</div>`);
+
     // $("#start-sound")[0].play();
     $(".tile").data("unit", {
       health: 0
@@ -389,26 +439,27 @@ $(document).ready(function() {
     //need to reset this?
     function unflip() {
       if (tileCountdownArray.length > maxFlipped) {
+
         const oldestTile = _.head(tileCountdownArray);
+        console.log("oldestTile", oldestTile);
         oldestTile.removeClass("flipped");
         oldestTile.css("background", "url('images/block.png')");
         oldestTile.find(".unit-health").remove();
         _.remove(tileCountdownArray, oldestTile);
-
-        points -= oldestTile.data("unit").health;;
+        points -= oldestTile.data("unit").health;
         updateScore();
+      }
+      else{
+        return;
       }
     }
 
     let unflipInterval = setInterval(unflip, flipSpeed);
 
 
-
-
-
     $(".tile").on("click", function() {
       if ($(this).hasClass("flipped")) {
-        $(this).animateCss("pulse");
+        $(this).animateCss("rotateOut");
 
         $(this).data("unit").health -= 1;
         $(this).find(".unit-health").html($(this).data("unit").health); //so ugly
