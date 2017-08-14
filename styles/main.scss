@@ -109,6 +109,7 @@ video.fullscreen {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
+  margin-top: 5px;
 }
 
 .tile:hover {
@@ -195,4 +196,19 @@ video {
     border: 3px solid #000;
     font-weight: 700;
   }
+}
+
+.whack{
+  border: 2px solid green;
+
+}
+
+.dont-whack{
+  border: 2px solid red;
+}
+
+.border-example{
+  display: inline-block;
+  width: 80px;
+  height: 100px;
 }

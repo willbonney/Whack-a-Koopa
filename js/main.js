@@ -384,7 +384,7 @@ $(document).ready(function() {
   });
 
   $("#shrink-grid").on("click", function() {
-    console.log("shrink");
+    console.log("shrink", "speed is ", flipSpeed);
     shrinkGridSize(1);
   });
 

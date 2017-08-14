@@ -101,56 +101,65 @@
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header text-center">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h2 class="modal-title mario-font text-center" id="myModalLabel">Welcome to Whack-A-Koopa</h2>
+          <div class="whack border-example text-center"><h4>Click Me</h4></div>
+          <div class="dont-whack border-example text-center"><h4>Do NOT Click Me</h4></div>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-3">
-              <div class="modal-item"><img src="images/koopa-green.png" class="center instruction-img">
-                <div>HP: 1, awards 1 point</div>
-              </div>
-              <div class="modal-item"><img src="images/goomba.png" class="center instruction-img">
-                <div>HP: 1, awards 1 point</div>
-              </div>
-              <div class="modal-item"> <img src="images/ghost.png" class="center instruction-img">
-                <div>HP: 1, fades screen for 3 seconds</div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="modal-item"><img src="images/bowser.png" class="center instruction-img">
-                <div>HP: 5, awards 5 points</div>
-              </div>
-              <div class="modal-item"><img src="images/mushroom.png" class="center instruction-img">
-                <div>HP: 3, upgrades to AOE whacking</div>
-              </div>
-              <div class="modal-item"><img src="images/oneup.png" class="center instruction-img">
-                <div>HP: 5, decreases grid size by 2</div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="modal-item"><img src="images/piranha.png" class="center instruction-img">
-                <div>HP: 1, increases grid size by 2</div>
-              </div>
-              <div class="modal-item"><img src="images/bomb.png" class="center instruction-img">
+              <div class="modal-item dont-whack"><img src="images/bomb.png" class="center instruction-img">
                 <div>HP: 1, increases game speed</div>
               </div>
-              <div class="modal-item"><img src="images/star.png" class="center instruction-img">
+
+              <div class="modal-item dont-whack"><img src="images/peach.png" class="center instruction-img">
+                <div>HP: 1, if you hit Peach, Game Over</div>
+              </div>
+
+              <div class="modal-item dont-whack"><img src="images/thwomp.png" class="center instruction-img">
+                <div>HP: 1, reduces tile size by 80% for 5 seconds</div>
+              </div>
+
+            </div>
+            <div class="col-md-3">
+              <div class="modal-item dont-whack"> <img src="images/ghost.png" class="center instruction-img">
+                <div>HP: 1, fades screen for 3 seconds</div>
+              </div>
+              <div class="modal-item dont-whack"><img src="images/piranha.png" class="center instruction-img">
+                <div>HP: 1, increases grid size by 2</div>
+              </div>
+              <div class="modal-item whack"><img src="images/bowser.png" class="center instruction-img">
+                <div>HP: 5, awards 5 points</div>
+              </div>
+
+            </div>
+            <div class="col-md-3">
+              <div class="modal-item whack"><img src="images/koopas.gif" class="center instruction-img">
+                <div>HP: 1, awards 1 point</div>
+              </div>
+
+              <div class="modal-item whack"><img src="images/oneup.png" class="center instruction-img">
+                <div>HP: 5, decreases grid size by 2</div>
+              </div>
+
+              <div class="modal-item whack"><img src="images/star.png" class="center instruction-img">
                 <div>HP: 5, decreases game speed</div>
               </div>
             </div>
             <div class="col-md-3">
 
-              <div class="modal-item"><img src="images/yoshi.png" class="center instruction-img">
-                <div>HP: 1, Yoshi comes to help you out</div>
+              <div class="modal-item whack"><img src="images/yoshi.png" class="center instruction-img">
+                <div>HP: 1, Yoshi button activates (press when in trouble!)</div>
               </div>
-              <div class="modal-item"><img src="images/peach.png" class="center instruction-img">
-                <div>HP: 1, if you hit Peach, Game Over</div>
+              <div class="modal-item whack"><img src="images/goomba.png" class="center instruction-img">
+                <div>HP: 1, awards 1 point</div>
               </div>
-              <div class="modal-item"><img src="images/thwomp.png" class="center instruction-img">
-                <div>HP: 1, reduces tile size by 80% for 5 seconds</div>
+              <div class="modal-item whack"><img src="images/mushroom.png" class="center instruction-img">
+                <div>HP: 3, upgrades to AOE whacking</div>
               </div>
+
             </div>
           </div>
 
