@@ -104,8 +104,10 @@
         <div class="modal-header text-center">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h2 class="modal-title mario-font text-center" id="myModalLabel">Welcome to Whack-A-Koopa</h2>
-          <div class="whack border-example text-center"><h4>Click Me</h4></div>
-          <div class="dont-whack border-example text-center"><h4>Do NOT Click Me</h4></div>
+          <div class="whack border-example text-center">
+            <h4>Click Me</h4></div>
+          <div class="dont-whack border-example text-center">
+            <h4>Do NOT Click Me</h4></div>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -170,15 +172,59 @@
             <button id="easy-mode" type="button" class="btn btn-primary modal-btn">Easy</button>
             <button id="medium-mode" type="button" class="btn btn-primary modal-btn">Medium</button>
             <button id="hard-mode" type="button" class="btn btn-primary modal-btn">Hard</button>
-
+            <button id="custom-mode" type="button" class="btn btn-primary modal-btn">Custom Settings</button>
+            <div id="custom-fields">
+              <ul>
+                <li>Game Speed:
+                      <select name="Game Speed" id="speed-input">
+                        <option value="200">200ms</option>
+                        <option value="400">400ms</option>
+                        <option value="600">600ms</option>
+                        <option value="800" selected>800ms</option>
+                        <option value="1000">1000ms</option>
+                        <option value="1200">1200ms</option>
+                        <option value="1400">1400ms</option>
+                        <option value="1600">1600ms</option>
+                        <option value="1800">1800ms</option>
+                        <option value="2000">2000ms</option>
+                      </select>
+                </li>
+                <li>Grid Size:
+                <select name="Grid Size" id="grid-input">
+                  <option value="4">4x4</option>
+                  <option value="5">5x5</option>
+                  <option value="6" selected>6x6</option>
+                  <option value="7">7x7</option>
+                  <option value="8">8x8</option>
+                  <option value="9">9x9</option>
+                  <option value="10">10x10</option>
+                </select></li>
+                <li>Maximum Flipped:
+                <select name="Maximum Flipped Tiles" id="flipped-input">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8" selected>8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select></li>
+              </ul>
+            </div>
           </div>
           <div class="row text-center">
-            <button id="start-button" type="button" class="btn btn-success modal-btn">Start Game</button>
+            <button id="start-button" type="button" class="btn btn-success modal-btn btn-lg">Start Game</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

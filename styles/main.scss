@@ -212,3 +212,18 @@ video {
   width: 80px;
   height: 100px;
 }
+
+
+#custom-fields{
+  display: none;
+  float: right;
+  margin-right: 10px;
+  ul{
+    padding-left: 0px;
+    list-style: none;
+    li{
+      margin-top: 5px;
+    }
+  }
+
+}

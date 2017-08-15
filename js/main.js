@@ -99,6 +99,7 @@ Peach.prototype.gotClicked = function() {
   $("#peach-sound")[0].play();
   alert("You whacked the pricess, Game Over!");
   clearInterval(flipInterval); //not defined
+  clearInterval(unflipInterval); //not defined
   return;
 };
 
@@ -259,6 +260,7 @@ let flipSpeed = 600;
 let maxFlipped = 9;
 let mushroomPower = false;
 let tileCountdownArray = [];
+let customSettings = false;
 
 $(document).ready(function() {
   $("#toggle-dev").on("click", function() {
@@ -266,6 +268,11 @@ $(document).ready(function() {
     $("#dev-buttons").show();
   });
   $('#myModal').modal('show');
+
+  $('#custom-mode').on("click", function() {
+    $('#custom-fields').toggle();
+    customSettings = !customSettings;
+  });
 
   $("#easy-mode").on("click", function() {
     gridSize = 4;
@@ -395,6 +402,18 @@ $(document).ready(function() {
     $('#status-text').append(`<div>Grid Size: ${gridSize}</div>`);
     $('#status-text').append(`<div>Game Speed: ${flipSpeed}</div>`);
     $('#status-text').append(`<div>Max Flipped Tiles: ${maxFlipped}</div>`);
+
+    if(customSettings){
+      customSettings = false;
+      const customSpeed = _.toNumber($("#speed-input").val());
+      const customGrid = _.toNumber($("#grid-input").val());
+      const customFlipped = _.toNumber($("#flipped-input").val());
+      console.log("Custom Flip Speed = ", customFlipped, "Custom Grid Size = ", customGrid,"Custom Game Speed = ", customSpeed);
+      flipSpeed = customSpeed;
+      gridSize = customGrid;
+      maxFlipped = customFlipped;
+      modifyGrid();
+    };
 
     $(".tile").data("unit", {
       health: 0
