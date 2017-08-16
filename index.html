@@ -103,11 +103,13 @@
       <div class="modal-content">
         <div class="modal-header text-center">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h2 class="modal-title mario-font text-center" id="myModalLabel">Welcome to Whack-A-Koopa</h2>
-          <div class="whack border-example text-center">
-            <h4>Click Me</h4></div>
-          <div class="dont-whack border-example text-center">
-            <h4>Do NOT Click Me</h4></div>
+          <h2 class="modal-title mario-font center" id="myModalLabel">Welcome to Whack-A-Koopa</h2>
+          <div class="row  justify-content-center">
+            <div class="whack border-example text-center col-3">
+              <h4>Click Me</h4></div>
+            <div class="dont-whack border-example text-center col-3">
+              <h4>Do NOT Click Me</h4></div>
+          </div>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -176,7 +178,7 @@
             <div id="custom-fields">
               <ul>
                 <li>Game Speed:
-                      <select name="Game Speed" id="speed-input">
+                  <select name="Game Speed" id="speed-input">
                         <option value="200">200ms</option>
                         <option value="400">400ms</option>
                         <option value="600">600ms</option>
@@ -190,7 +192,7 @@
                       </select>
                 </li>
                 <li>Grid Size:
-                <select name="Grid Size" id="grid-input">
+                  <select name="Grid Size" id="grid-input">
                   <option value="4">4x4</option>
                   <option value="5">5x5</option>
                   <option value="6" selected>6x6</option>
@@ -200,7 +202,7 @@
                   <option value="10">10x10</option>
                 </select></li>
                 <li>Maximum Flipped:
-                <select name="Maximum Flipped Tiles" id="flipped-input">
+                  <select name="Maximum Flipped Tiles" id="flipped-input">
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
