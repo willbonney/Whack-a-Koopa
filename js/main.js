@@ -348,7 +348,7 @@ $(document).ready(function() {
 
   //grow gridSize
   function growGridSize(increase) {
-    if (gridSize >= 8) {
+    if (gridSize >= 10) {
       console.log("larger than 8");
       return;
     } else {
@@ -601,7 +601,7 @@ $(document).ready(function() {
     });
 
     function changeSpeed(change) {
-      if ((flipSpeed + change) < 200 || (flipSpeed + change) > 1200) {
+      if ((flipSpeed + change) < 200 || (flipSpeed + change) > 2000) {
         console.log("speed limit exceeded");
       } else {
         clearInterval(flipInterval);

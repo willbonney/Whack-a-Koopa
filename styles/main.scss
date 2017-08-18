@@ -1,6 +1,5 @@
 $base: #ccc;
 $alt-1: #ddd;
-$alt-2: #fff;
 
 * {
   box-sizing: border-box;
@@ -26,10 +25,7 @@ body {
   padding-top: 15px;
 }
 
-.panel-title {
-  font-family: "SuperMario256";
-}
-
+.panel-title,
 .mario-font {
   font-family: "SuperMario256";
 }
@@ -106,7 +102,7 @@ video.fullscreen {
 }
 
 .modal-item {
-  border: 1px solid #ddd;
+  border: 1px solid $alt-1;
   padding: 10px;
   text-align: center;
   margin-top: 5px;
