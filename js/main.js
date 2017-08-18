@@ -227,6 +227,7 @@ ghost5 = new Ghost();
 mushroom = new Mushroom();
 mushroom2 = new Mushroom();
 yoshi = new Yoshi();
+yoshi2 = new Yoshi();
 bomb = new Bomb();
 bomb2 = new Bomb();
 bomb3 = new Bomb();
@@ -249,7 +250,7 @@ const unitCollection = [
   peach, peach2, peach3,
   ghost, ghost2, ghost3, ghost4, ghost5,
   mushroom, mushroom2,
-  yoshi,
+  yoshi, yoshi2,
   thwomp, thwomp2, thwomp3, thwomp4, thwomp5
 ];
 
