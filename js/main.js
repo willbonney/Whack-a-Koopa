@@ -338,6 +338,7 @@ $(document).ready(function() {
 
   assignClasses();
 
+//run after grow or shrink gridsize to rebuild grid
   function modifyGrid() {
     $("#game-container").empty();
     addRows(gridSize);
@@ -416,6 +417,7 @@ $(document).ready(function() {
       modifyGrid();
     };
 
+    //reset all health
     $(".tile").data("unit", {
       health: 0
     });
@@ -437,6 +439,7 @@ $(document).ready(function() {
       }
     }
 
+
     function flip() {
       //flip tile
       const rowRandom = _.random(1, gridSize);
@@ -445,16 +448,14 @@ $(document).ready(function() {
       const chosenTile = $(tileRandom);
       tileCountdownArray.push(chosenTile);
       if (chosenTile.hasClass("flipped")) {
-        //getting slow at end
-        // return;
-        //do nothing
 
       } else {
         chosenTile.addClass("flipped");
         const chosenUnit = _.sample(unitCollection);
         const chosenImg = "url('" + chosenUnit.imageSrc + "')";
         chosenTile.css("background", chosenImg);
-        chosenTile.append("<span class='unit-health'>" + chosenUnit.health + "</span>")
+        chosenTile.append("<span class='unit-health'>" + chosenUnit.health + "</span>");
+        //attach constructor properties to tile $ data attr
         $(chosenTile).data("unit", {
           name: chosenUnit.name,
           health: chosenUnit.health,
@@ -465,7 +466,7 @@ $(document).ready(function() {
     }
 
     let flipInterval = setInterval(flip, flipSpeed);
-    //need to reset this?
+
     function unflip() {
       if (tileCountdownArray.length > maxFlipped) {
 
@@ -573,7 +574,6 @@ $(document).ready(function() {
           $(target).find(".unit-health").remove();
         };
 
-        //yoshi setInterval not working
         $("#yoshi-button").on("click", function() {
           let numberFlipped = $(".flipped").length;
           let flippedTiles = $(".flipped");
@@ -593,6 +593,7 @@ $(document).ready(function() {
       }; //if this hasclass flipped end
 
     }); //tile onclick end
+
     $("#fast-button").on("click", function() {
       changeSpeed(-200);
     });
