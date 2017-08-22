@@ -85,6 +85,18 @@ const Yoshi = function() {
   this.imageSrc = "images/yoshi.png";
 }
 
+const Pipe = function() {
+  this.health = 1;
+  this.points = 0;
+  this.imageSrc = "images/pipe.png";
+}
+
+const Mario = function() {
+  this.health = 99;
+  this.points = 0;
+  this.imageSrc = "images/mario.png";
+}
+
 Thwomp.prototype.gotClicked = function() {
   $("#thwomp-sound")[0].play();
   $(".tile").css("width", "20px");
@@ -178,6 +190,16 @@ Yoshi.prototype.gotClicked = function(name, health) {
 
 };
 
+Pipe.prototype.gotClicked = function() {
+  miniGame = true;
+  $("#pipe-sound")[0].play();
+
+};
+
+Mario.prototype.gotClicked = function() {
+
+};
+
 koopa = new Koopa();
 koopa2 = new Koopa();
 koopa3 = new Koopa();
@@ -238,28 +260,32 @@ piranha3 = new Piranha();
 piranha4 = new Piranha();
 piranha5 = new Piranha();
 star = new Star();
+pipe = new Pipe();
+mario = new Mario();
 
-const unitCollection = [
-  oneup,
-  piranha, piranha2, piranha3, piranha4, piranha5,
-  star,
-  goomba, goomba2, goomba3, goomba4, goomba5, goomba6, goomba7, goomba8, goomba9, goomba10,
-  koopa, koopa2, koopa3, koopa4, koopa5, koopa6, koopa7, koopa8, koopa10, koopa11, koopa12, koopa13, koopa14, koopa15, koopa16, koopa17, koopa18, koopa19, koopa20,
-  bomb, bomb2, bomb3,
-  bowser, bowser2, bowser3,
-  peach, peach2, peach3,
-  ghost, ghost2, ghost3, ghost4, ghost5,
-  mushroom, mushroom2,
-  yoshi, yoshi2,
-  thwomp, thwomp2, thwomp3, thwomp4, thwomp5
-];
+// const unitCollection = [
+//   oneup,
+//   piranha, piranha2, piranha3, piranha4, piranha5,
+//   star,
+//   goomba, goomba2, goomba3, goomba4, goomba5, goomba6, goomba7, goomba8, goomba9, goomba10,
+//   koopa, koopa2, koopa3, koopa4, koopa5, koopa6, koopa7, koopa8, koopa10, koopa11, koopa12, koopa13, koopa14, koopa15, koopa16, koopa17, koopa18, koopa19, koopa20,
+//   bomb, bomb2, bomb3,
+//   bowser, bowser2, bowser3,
+//   peach, peach2, peach3,
+//   ghost, ghost2, ghost3, ghost4, ghost5,
+//   mushroom, mushroom2,
+//   yoshi, yoshi2,
+//   thwomp, thwomp2, thwomp3, thwomp4, thwomp5
+// ];
 
+const unitCollection = [pipe];
 
 let points = 0;
 let gridSize = 6;
 let flipSpeed = 600;
 let maxFlipped = 9;
 let mushroomPower = false;
+let miniGame = false;
 let tileCountdownArray = [];
 let customSettings = false;
 
@@ -338,7 +364,7 @@ $(document).ready(function() {
 
   assignClasses();
 
-//run after grow or shrink gridsize to rebuild grid
+  //run after grow or shrink gridsize to rebuild grid
   function modifyGrid() {
     $("#game-container").empty();
     addRows(gridSize);
@@ -405,12 +431,12 @@ $(document).ready(function() {
     $('#status-text').append(`<div>Game Speed: ${flipSpeed}</div>`);
     $('#status-text').append(`<div>Max Flipped Tiles: ${maxFlipped}</div>`);
 
-    if(customSettings){
+    if (customSettings) {
       customSettings = false;
       const customSpeed = _.toNumber($("#speed-input").val());
       const customGrid = _.toNumber($("#grid-input").val());
       const customFlipped = _.toNumber($("#flipped-input").val());
-      console.log("Custom Flip Speed = ", customFlipped, "Custom Grid Size = ", customGrid,"Custom Game Speed = ", customSpeed);
+      console.log("Custom Flip Speed = ", customFlipped, "Custom Grid Size = ", customGrid, "Custom Game Speed = ", customSpeed);
       flipSpeed = customSpeed;
       gridSize = customGrid;
       maxFlipped = customFlipped;
@@ -504,6 +530,72 @@ $(document).ready(function() {
         if ($(this).data("unit").health === 0) {
           $(this).animateCss("rotateOut");
           killIt(this);
+        };
+
+        if (miniGame === true) {
+          let mariosClicked = 0;
+          let numberOfMarios = 8;
+          clearInterval(flipInterval);
+          clearInterval(unflipInterval);
+
+          gridSize = 5;
+          modifyGrid();
+          $(".tile").removeClass("flipped");
+          $(".tile").addClass("not-mario");
+          $(".tile").css("background", "url('images/invertedblock.png')");
+          $(".tile").find(".unit-health").remove();
+
+
+          $("#sudden-death-modal").modal('show');
+          console.log($(".not-mario"));
+
+          $("#enter-sudden-death").on("click", function() {
+            $("#sudden-death-modal").modal('hide');
+            $("#suddendeath")[0].play();
+
+
+            const selectedMarios = _.sampleSize($(".tile"), 8); //issue here
+            //temp solution if(mariosClicked === $(".not-mario").length)
+            console.log($(".not-mario").length, selectedMarios);
+            $(selectedMarios).removeClass("not-mario");
+            $(selectedMarios).addClass("mario");
+            $(selectedMarios).css("background", "url('images/mario.png')");
+
+            // for (let j = 0; j < numberOfMarios; j++) {
+            //   const mgTileRandom = _.sample($(".not-mario"));
+            //   console.log(mgTileRandom);
+            //   $(mgTileRandom).removeClass("not-mario");
+            //   $(mgTileRandom).addClass("mario");
+            //   $(mgTileRandom).css("background", "url('images/mario.png')");
+            // };
+
+
+            setTimeout(function(){
+              $(".mario").css("background", "url('images/invertedblock.png')");
+              $("#itsmemario-sound")[0].play();
+            },5000);
+
+            $(".mario").on("click", function() {
+              $("#yahoo-sound")[0].play();
+              $(this).css("background", "url('images/mario2.png')");
+              $(this).removeClass("mario");
+              if($(this).hasClass("mario")){mariosClicked++;}
+              if (mariosClicked === numberOfMarios) {
+                $("#suddendeathwin")[0].play();
+                setTimeout(function() {
+                  alert("You win Suddent Death!");
+                }, 10);
+              }
+            });
+
+            $(".not-mario").on("click", function() {
+              $("#suddendeathlose")[0].play();
+              setTimeout(function() {
+                alert("You lost Sudden Death!");
+              }, 10)
+
+            });
+          });
         };
 
         if (mushroomPower === true) {
