@@ -64,7 +64,7 @@
       <div id="left-panel" class="col-xs-2">
         <div class="panel panel-warning">
           <div class="panel-heading">
-            <h3 class="panel-title">SCORE: <span id="points"></span></h3>
+            <h2 class="panel-title">SCORE: <span id="points"></span></h2>
           </div>
           <div class="panel-body">
             <ul class="bullet-list">
@@ -81,7 +81,7 @@
       <div id="right-panel" class="col-xs-2">
         <div class="panel panel-warning">
           <div class="panel-heading">
-            <h3 class="panel-title">STATUS:<span id="points"></span></h3>
+            <h2 class="panel-title">STATUS:<span id="points"></span></h2>
           </div>
           <div class="panel-body">
             <div class="form-group">
@@ -106,15 +106,20 @@
 
   <div class="modal fade" id="sudden-death-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content text-center">
         <div class="modal-header">
-          <h5 class="modal-title">Sudden Death Mode</h5>
+          <h2 class="modal-title mario-font ">Sudden Death Mode</h2>
         </div>
         <div class="modal-body">
-          <p>This is sudden death</p>
+          <h3>8 marios will appear on the grid and disappear after 2 seconds.</h3>
+          <div class="sd-modal-item"><img src="images/mario.png" class="center">
+            <h4>Pay attention to where I am!</h4>
+          </div>
+          <h3>Remember their poisitions and click all 8 to win.</h3>
+          <h3>Make one mistake and you lose.</h3>
         </div>
-        <div class="modal-footer">
-          <button id="enter-sudden-death" type="button" class="btn btn-primary">Continue</button>
+        <div class="modal-footer ">
+          <button id="enter-sudden-death" type="button" class="center btn btn-lg btn-success">I'm ready!</button>
         </div>
       </div>
     </div>

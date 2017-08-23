@@ -24,8 +24,8 @@ body {
   padding-bottom: 15px;
 }
 
-.panel-title,
-.mario-font {
+.mario-font,
+.panel-title {
   font-family: "SuperMario256";
 }
 
@@ -193,16 +193,15 @@ video {
   }
 }
 
-.whack{
+.whack {
   border: 3px solid green;
-
 }
 
-.dont-whack{
+.dont-whack {
   border: 3px solid red;
 }
 
-.border-example{
+.border-example {
   display: inline-block;
   width: 80px;
   height: 100px;
@@ -210,19 +209,48 @@ video {
   margin: 15px;
 }
 
-
-#custom-fields{
+#custom-fields {
   display: none;
   float: right;
   margin-right: 10px;
-  ul{
-    padding-left: 0px;
+
+  ul {
+    padding-left: 0;
     list-style: none;
-    li{
+
+    li {
       margin-top: 5px;
     }
   }
 }
-#sudden-death-modal{
+
+#sudden-death-modal {
+  .modal-title {}
+
+  .sd-modal-item {
+    border: 10px dashed darken(orange, 2%);
+    padding: 10px;
+    text-align: center;
+    margin-top: 5px;
+    max-width: 300px;
+    margin: 0 auto;
+
+    img {
+      max-width: 250px;
+    }
+  }
+
+  .modal-content {
+    background-color: darken(#072791, 10%);
+    color: #fff;
+  }
+
+  .modal-footer {
+    text-align: center;
+    border-top: none;
+    button {
+      margin: 0 auto;
+    }
+  }
   display: none;
 }

@@ -540,61 +540,57 @@ $(document).ready(function() {
 
           gridSize = 5;
           modifyGrid();
-          $(".tile").removeClass("flipped");
-          $(".tile").addClass("not-mario");
-          $(".tile").css("background", "url('images/invertedblock.png')");
-          $(".tile").find(".unit-health").remove();
-
+          $(".tile")
+            .removeClass("flipped")
+            .addClass("not-mario")
+            .css("background", "url('images/invertedblock.png')")
+            .find(".unit-health").remove();
 
           $("#sudden-death-modal").modal('show');
-          console.log($(".not-mario"));
 
           $("#enter-sudden-death").on("click", function() {
             $("#sudden-death-modal").modal('hide');
             $("#suddendeath")[0].play();
 
+            const tileArray = document.querySelectorAll(".tile");
+            const selectedMarios = _.sampleSize(tileArray, 8); //lodash doesnt like $ objects...
+            $(selectedMarios).each(function() {
+              $(this)
+                .removeClass("not-mario")
+                .addClass("mario")
+                .css("background", "url('images/mario.png')");
+            });
 
-            const selectedMarios = _.sampleSize($(".tile"), 8); //issue here
-            //temp solution if(mariosClicked === $(".not-mario").length)
-            console.log($(".not-mario").length, selectedMarios);
-            $(selectedMarios).removeClass("not-mario");
-            $(selectedMarios).addClass("mario");
-            $(selectedMarios).css("background", "url('images/mario.png')");
-
-            // for (let j = 0; j < numberOfMarios; j++) {
-            //   const mgTileRandom = _.sample($(".not-mario"));
-            //   console.log(mgTileRandom);
-            //   $(mgTileRandom).removeClass("not-mario");
-            //   $(mgTileRandom).addClass("mario");
-            //   $(mgTileRandom).css("background", "url('images/mario.png')");
-            // };
-
-
-            setTimeout(function(){
+            setTimeout(function() {
               $(".mario").css("background", "url('images/invertedblock.png')");
               $("#itsmemario-sound")[0].play();
-            },5000);
 
-            $(".mario").on("click", function() {
-              $("#yahoo-sound")[0].play();
-              $(this).css("background", "url('images/mario2.png')");
-              $(this).removeClass("mario");
-              if($(this).hasClass("mario")){mariosClicked++;}
-              if (mariosClicked === numberOfMarios) {
-                $("#suddendeathwin")[0].play();
+              $(".mario").on("click", function() {
+                if ($(this).hasClass("mario")) {
+                  $(this).removeClass("mario");
+                  $(this).css("background", "url('images/mario2.png')");
+                  $("#yahoo-sound")[0].play();
+                  mariosClicked++;
+                  console.log(mariosClicked)
+                };
+                if (mariosClicked === numberOfMarios) {
+                  $("#suddendeathwin")[0].play();
+                  setTimeout(function() {
+                    alert("You win Suddent Death!");
+                  }, 10);
+                }
+              });
+
+              $(".not-mario").on("click", function() {
+                $("#suddendeathlose")[0].play();
                 setTimeout(function() {
-                  alert("You win Suddent Death!");
-                }, 10);
-              }
-            });
+                  alert("You lost Sudden Death!");
+                }, 10)
 
-            $(".not-mario").on("click", function() {
-              $("#suddendeathlose")[0].play();
-              setTimeout(function() {
-                alert("You lost Sudden Death!");
-              }, 10)
+              });
 
-            });
+            }, 2000);
+
           });
         };
 
