@@ -108,11 +108,9 @@ Thwomp.prototype.gotClicked = function() {
 };
 
 Peach.prototype.gotClicked = function() {
+  peachAlive = false;
   $("#peach-sound")[0].play();
   alert("You whacked the pricess, Game Over!");
-  clearInterval(flipInterval); //not defined
-  clearInterval(unflipInterval); //not defined
-  return;
 };
 
 Koopa.prototype.gotClicked = function() {
@@ -261,24 +259,26 @@ piranha4 = new Piranha();
 piranha5 = new Piranha();
 star = new Star();
 pipe = new Pipe();
+pipe2 = new Pipe();
 mario = new Mario();
 
-// const unitCollection = [
-//   oneup,
-//   piranha, piranha2, piranha3, piranha4, piranha5,
-//   star,
-//   goomba, goomba2, goomba3, goomba4, goomba5, goomba6, goomba7, goomba8, goomba9, goomba10,
-//   koopa, koopa2, koopa3, koopa4, koopa5, koopa6, koopa7, koopa8, koopa10, koopa11, koopa12, koopa13, koopa14, koopa15, koopa16, koopa17, koopa18, koopa19, koopa20,
-//   bomb, bomb2, bomb3,
-//   bowser, bowser2, bowser3,
-//   peach, peach2, peach3,
-//   ghost, ghost2, ghost3, ghost4, ghost5,
-//   mushroom, mushroom2,
-//   yoshi, yoshi2,
-//   thwomp, thwomp2, thwomp3, thwomp4, thwomp5
-// ];
+const unitCollection = [
+  oneup,
+  piranha, piranha2, piranha3, piranha4, piranha5,
+  star,
+  goomba, goomba2, goomba3, goomba4, goomba5, goomba6, goomba7, goomba8, goomba9, goomba10,
+  koopa, koopa2, koopa3, koopa4, koopa5, koopa6, koopa7, koopa8, koopa10, koopa11, koopa12, koopa13, koopa14, koopa15, koopa16, koopa17, koopa18, koopa19, koopa20,
+  bomb, bomb2, bomb3,
+  bowser, bowser2, bowser3,
+  peach, peach2, peach3,
+  ghost, ghost2, ghost3, ghost4, ghost5,
+  mushroom, mushroom2,
+  yoshi, yoshi2,
+  thwomp, thwomp2, thwomp3, thwomp4, thwomp5,
+  pipe, pipe2
+];
 
-const unitCollection = [pipe];
+// const unitCollection = [pipe];
 
 let points = 0;
 let gridSize = 6;
@@ -288,6 +288,7 @@ let mushroomPower = false;
 let miniGame = false;
 let tileCountdownArray = [];
 let customSettings = false;
+let peachAlive = true;
 
 $(document).ready(function() {
   $("#toggle-dev").on("click", function() {
@@ -372,6 +373,7 @@ $(document).ready(function() {
     addColumns(gridSize);
     tiles = $(".tile");
     assignClasses();
+
   }
 
   //grow gridSize
@@ -390,6 +392,7 @@ $(document).ready(function() {
       modifyGrid();
       tileCountdownArray.length = 0;
       $("#start-button").trigger("click");
+
     }
 
   };
@@ -425,6 +428,7 @@ $(document).ready(function() {
 
   //start game logic
   $("#start-button").on("click", function() {
+
     $("#start-sound")[0].play();
     $('#myModal').modal('hide');
     $('#status-text').append(`<div>Grid Size: ${gridSize}</div>`);
@@ -467,6 +471,11 @@ $(document).ready(function() {
 
 
     function flip() {
+      if(miniGame === true || points >= 100 || points <= -100 || peachAlive === false){
+        clearInterval(flipInterval);
+        clearInterval(unflipInterval);
+        return;
+      }
       //flip tile
       const rowRandom = _.random(1, gridSize);
       const colRandom = _.random(1, gridSize);
@@ -511,7 +520,6 @@ $(document).ready(function() {
 
     let unflipInterval = setInterval(unflip, flipSpeed);
 
-
     $(".tile").on("click", function() {
       if ($(this).hasClass("flipped")) {
 
@@ -535,11 +543,21 @@ $(document).ready(function() {
         if (miniGame === true) {
           let mariosClicked = 0;
           let numberOfMarios = 8;
-          clearInterval(flipInterval);
-          clearInterval(unflipInterval);
-
           gridSize = 5;
           modifyGrid();
+
+
+          clearInterval(flipInterval);
+          clearInterval(unflipInterval);
+          flipInterval = 0;
+          unflipInterval = 0;
+          tileCountdownArray.length = 0;
+          flipSpeed = 0;
+
+
+          console.log("flip", flipInterval, "unflip", unflipInterval);
+          console.log("tileCountdownArray", tileCountdownArray);
+
           $(".tile")
             .removeClass("flipped")
             .addClass("not-mario")
@@ -711,7 +729,4 @@ $(document).ready(function() {
     };
 
   }); //start onclick end
-
-  //win loss conditions
-
 });
