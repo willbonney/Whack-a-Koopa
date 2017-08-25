@@ -278,8 +278,6 @@ const unitCollection = [
   pipe, pipe2
 ];
 
-// const unitCollection = [pipe];
-
 let points = 0;
 let gridSize = 6;
 let flipSpeed = 600;
@@ -504,7 +502,6 @@ $(document).ready(function() {
 
     function unflip() {
       if (tileCountdownArray.length > maxFlipped) {
-
         const oldestTile = _.head(tileCountdownArray);
         console.log("oldestTile", oldestTile);
         oldestTile.removeClass("flipped");
@@ -546,7 +543,7 @@ $(document).ready(function() {
           gridSize = 5;
           modifyGrid();
 
-
+          //redundant?
           clearInterval(flipInterval);
           clearInterval(unflipInterval);
           flipInterval = 0;
