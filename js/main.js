@@ -198,84 +198,50 @@ Mario.prototype.gotClicked = function() {
 
 };
 
-koopa = new Koopa();
-koopa2 = new Koopa();
-koopa3 = new Koopa();
-koopa4 = new Koopa();
-koopa5 = new Koopa();
-koopa6 = new Koopa();
-koopa7 = new Koopa();
-koopa8 = new Koopa();
-koopa9 = new Koopa();
-koopa10 = new Koopa();
-koopa11 = new Koopa();
-koopa12 = new Koopa();
-koopa13 = new Koopa();
-koopa14 = new Koopa();
-koopa15 = new Koopa();
-koopa16 = new Koopa();
-koopa17 = new Koopa();
-koopa18 = new Koopa();
-koopa19 = new Koopa();
-koopa20 = new Koopa();
-goomba = new Goomba();
-goomba2 = new Goomba();
-goomba3 = new Goomba();
-goomba4 = new Goomba();
-goomba5 = new Goomba();
-goomba6 = new Goomba();
-goomba7 = new Goomba();
-goomba8 = new Goomba();
-goomba9 = new Goomba();
-goomba10 = new Goomba();
-thwomp = new Thwomp();
-thwomp2 = new Thwomp();
-thwomp3 = new Thwomp();
-thwomp4 = new Thwomp();
-thwomp5 = new Thwomp();
-bowser = new Bowser();
-bowser2 = new Bowser();
-bowser3 = new Bowser();
-peach = new Peach();
-peach2 = new Peach();
-peach3 = new Peach();
-ghost = new Ghost();
-ghost2 = new Ghost();
-ghost3 = new Ghost();
-ghost4 = new Ghost();
-ghost5 = new Ghost();
-mushroom = new Mushroom();
-mushroom2 = new Mushroom();
-yoshi = new Yoshi();
-yoshi2 = new Yoshi();
-bomb = new Bomb();
-bomb2 = new Bomb();
-bomb3 = new Bomb();
-oneup = new Oneup();
-piranha = new Piranha();
-piranha2 = new Piranha();
-piranha3 = new Piranha();
-piranha4 = new Piranha();
-piranha5 = new Piranha();
-star = new Star();
-pipe = new Pipe();
-pipe2 = new Pipe();
-mario = new Mario();
+const oneupArray = [];
+const piranhaArray = [];
+const starArray = [];
+const goombaArray = [];
+const koopaArray = [];
+const bombArray = [];
+const bowserArray = [];
+const peachArray = [];
+const ghostArray = [];
+const mushroomArray = [];
+const yoshiArray = [];
+const thwompArray = [];
+const pipeArray = [];
+
+for (let i = 0; i < 20; i++) {
+  oneupArray.push(new Oneup());
+  piranhaArray.push(new Piranha());
+  starArray.push(new Star());
+  goombaArray.push(new Goomba());
+  koopaArray.push(new Koopa());
+  bombArray.push(new Bomb());
+  bowserArray.push(new Bowser());
+  peachArray.push(new Peach());
+  ghostArray.push(new Ghost());
+  mushroomArray.push(new Mushroom());
+  yoshiArray.push(new Yoshi());
+  thwompArray.push(new Thwomp());
+  pipeArray.push(new Pipe());
+};
 
 const unitCollection = [
-  oneup,
-  piranha, piranha2, piranha3, piranha4, piranha5,
-  star,
-  goomba, goomba2, goomba3, goomba4, goomba5, goomba6, goomba7, goomba8, goomba9, goomba10,
-  koopa, koopa2, koopa3, koopa4, koopa5, koopa6, koopa7, koopa8, koopa10, koopa11, koopa12, koopa13, koopa14, koopa15, koopa16, koopa17, koopa18, koopa19, koopa20,
-  bomb, bomb2, bomb3,
-  bowser, bowser2, bowser3,
-  peach, peach2, peach3,
-  ghost, ghost2, ghost3, ghost4, ghost5,
-  mushroom, mushroom2,
-  yoshi, yoshi2,
-  thwomp, thwomp2, thwomp3, thwomp4, thwomp5,
-  pipe, pipe2
+  ...oneupArray.slice(0,1),
+  ...piranhaArray.slice(0,5),
+  ...starArray.slice(0,1),
+  ...goombaArray.slice(0,10),
+  ...koopaArray.slice(0,20),
+  ...bombArray.slice(0,3),
+  ...bowserArray.slice(0,3),
+  ...peachArray.slice(0,3),
+  ...ghostArray.slice(0,5),
+  ...mushroomArray.slice(0,2),
+  ...yoshiArray.slice(0,2),
+  ...thwompArray.slice(0,5),
+  ...pipeArray.slice(0,2),
 ];
 
 let points = 0;
