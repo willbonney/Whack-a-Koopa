@@ -51,6 +51,7 @@ body {
 
 #game-container {
   margin-top: 5%;
+  z-index: 99;
 
   .row {
     // width: 800px;
@@ -260,4 +261,33 @@ video {
 
 .instructions-btn{
   margin-top: 20px;
+}
+
+footer {
+  font-size: 1.2em;
+  position: fixed;
+    bottom: 0;
+  background: rgba(255,255,255,0.3);
+  border-top: 1px solid #000;
+  width: 99%;
+  height: 60px;
+  line-height: 60px;
+  span {
+    margin: 0 40px;
+    .fa {
+      font-size: 1.5em;
+
+      margin-left:5px;
+    }
+    a {
+      color: #EAD882;
+      text-decoration: none;
+      font-size: 1.5em;
+
+    }
+  }
+}
+
+a:focus, a:hover {
+color: #7162A1;
 }
