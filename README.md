@@ -14,4 +14,4 @@ Whack A Koopa
 
 ### Created using [jQuery](https://jquery.com), [Animate.css](https://daneden.github.io/animate.css/) and [Lodash](http://lodash.com).
 
-###[Link to live site.](https://wba0.github.io/Whack-a-Koopa/).
+### [Link to live site.](https://willbonney.github.io/Whack-a-Koopa/).
